@@ -5,7 +5,7 @@
     
     <stylesheet src="jqtouch/jqtouch.css" />
     <stylesheet src="themes/jqt/theme.css"/>
-    <stylesheet src="uig.css"/>
+    <stylesheet src="froly.css"/>
 
     <script src="jqtouch/jquery-1.4.2.min.js"/>
     <script src="jqtouch/jqtouch.js"/>
