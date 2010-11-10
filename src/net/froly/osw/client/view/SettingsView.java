@@ -3,7 +3,6 @@ package net.froly.osw.client.view;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.widgets.AbstractPanel;
-import net.froly.osw.client.widgets.View;
 
 public class SettingsView extends AbstractPanel {
 
@@ -31,6 +30,6 @@ public class SettingsView extends AbstractPanel {
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
-        addCancelButton("Cancel", new RevealHandler("home", View.SLIDELEFT));
+        addCancelButton("Cancel", new RevealHandler("home", View.FADE));
     }
 }

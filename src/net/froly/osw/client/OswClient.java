@@ -4,10 +4,11 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
+import net.froly.osw.client.view.ContactsView;
 import net.froly.osw.client.view.RevealHandler;
 import net.froly.osw.client.view.SettingsView;
+import net.froly.osw.client.view.View;
 import net.froly.osw.client.widgets.ListPanel;
-import net.froly.osw.client.widgets.View;
 
 /**
  * Application entry point.
@@ -27,6 +28,7 @@ public class OswClient implements EntryPoint {
             }
         };
 
+        final ClickHandler revealContacts = new RevealHandler("contacts");
         final ClickHandler revealSettings = new RevealHandler("settings");
         final ClickHandler revealHome = new RevealHandler("home", View.SLIDERIGHT);
                         
@@ -35,7 +37,7 @@ public class OswClient implements EntryPoint {
 
         ListPanel home = new ListPanel("Froly OSW")
         {{
-                HTML welcome = new HTML("One true, open, decentralized social network.");
+                HTML welcome = new HTML("<center>One true, open, decentralized social network.</center>");
                 welcome.setStyleName("content");
                 
                 addPre(welcome);
@@ -47,9 +49,10 @@ public class OswClient implements EntryPoint {
                     }
                 });
 
-                addItem("Contacts", noop);
-
+                addItem("Contacts", revealContacts);
                 addItem("Settings", revealSettings);
+
+                addPost(new HTML("<div class='content' style='color:#808080'>We dream of a world where all social networks are connected and work together in a way similar to email. Our project aims to define a language to bridge these networks and make it easy for social networks to join a bigger social web. You're invited to help make this a reality.</div>"));
             }};
 
 
@@ -79,6 +82,11 @@ public class OswClient implements EntryPoint {
         viewManagement.addView("settings", new SettingsView());
 
 
+        // ---------------------------------
+        // Contacts
+
+        viewManagement.addView("contacts", new ContactsView());
+        
         // ---------------------------------
         
         // default view

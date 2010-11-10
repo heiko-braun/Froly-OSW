@@ -1,7 +1,7 @@
 package net.froly.osw.client;
 
 import com.google.gwt.user.client.ui.RootPanel;
-import net.froly.osw.client.widgets.View;
+import net.froly.osw.client.view.View;
 
 import java.util.HashMap;
 import java.util.Map;
