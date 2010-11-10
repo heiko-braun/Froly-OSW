@@ -3,7 +3,6 @@ package net.froly.osw.client.view;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import net.froly.osw.client.OswClient;
-import net.froly.osw.client.widgets.View;
 
 public class RevealHandler implements ClickHandler {
 
@@ -11,7 +10,7 @@ public class RevealHandler implements ClickHandler {
     private final String anim;
 
     public RevealHandler(String target) {
-        this(target, View.SLIDERIGHT);
+        this(target, View.SLIDELEFT);
     }
 
     public RevealHandler(String target, String anim) {
