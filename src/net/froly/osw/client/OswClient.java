@@ -53,6 +53,7 @@ public class OswClient implements EntryPoint {
                 addItem("Settings", revealSettings);
 
                 addPost(new HTML("<div class='content' style='color:#808080'>We dream of a world where all social networks are connected and work together in a way similar to email. Our project aims to define a language to bridge these networks and make it easy for social networks to join a bigger social web. You're invited to help make this a reality.</div>"));
+
             }};
 
 
@@ -67,8 +68,7 @@ public class OswClient implements EntryPoint {
                 addItem("Two", noop);
 
                 addItem("Three", revealHome);
-                addBackButton("Back", revealHome);
-                addButton("+", noop);
+                addBackButton("Back", revealHome);                
 
             }};
 
