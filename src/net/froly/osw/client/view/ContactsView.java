@@ -1,31 +1,37 @@
 package net.froly.osw.client.view;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
 import net.froly.osw.client.widgets.AbstractPanel;
+import net.froly.osw.client.widgets.ContentListPanel;
+import net.froly.osw.client.widgets.ListPanel;
 
-public class ContactsView extends AbstractPanel {
+public class ContactsView extends ContentListPanel {
 
     public ContactsView() {
-        super("Contacts");
+        super("Contacts");        
     }
 
-    @Override
-    protected void htmlCallback(SafeHtmlBuilder sb) {
-        
-        sb.appendHtmlConstant("<ul class='edgetoedge'>");
-        sb.appendHtmlConstant("<li class='arrow'><a href=''>Peter Post</a>");
-        sb.appendHtmlConstant("<li class='arrow'><a href=''>Magic Mike</a>");
-        sb.appendHtmlConstant("<li class='arrow'><a href=''>Pia Haerle</a>");
-        sb.appendHtmlConstant("<li class='arrow'><a href=''>Mr. Minit</a>");
-        sb.appendHtmlConstant("<li class='arrow'><a href=''>Heiko Herrlich</a>");
-        sb.appendHtmlConstant("<li class='arrow'><a href=''>Herr Kaiser</a>");
-        sb.appendHtmlConstant("</ul>");
-    }
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
+
+        final ClickHandler noop = new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                //
+            }
+        };
+
+        addItem("Heiko Braun", noop);
+        addItem("Peter Post", noop);
+        addItem("Herr Kaiser", noop);
+        addItem("Funny Van Dannen", noop);
+        addItem("Mike Magic Trick", noop);
+        addItem("Fred Feuerstein", noop);
+
         addButton("+", new RevealHandler("contact_search", View.FADE));
         addBackButton("Back", new RevealHandler("home", View.SLIDERIGHT));
 

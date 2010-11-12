@@ -2,7 +2,6 @@ package net.froly.osw.client.widgets;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import net.froly.osw.client.view.View;
@@ -14,8 +13,9 @@ public abstract class AbstractPanel extends View {
 
     protected final HTMLPanel html;
     protected final String viewId;
-    
+
     public AbstractPanel(String title) {
+        
         viewId = HTMLPanel.createUniqueId();
 
         SafeHtmlBuilder sb = new SafeHtmlBuilder();
@@ -58,28 +58,28 @@ public abstract class AbstractPanel extends View {
     public void addButton(String name, final ClickHandler handler)
     {
         String s = "<a class=\"button\">"+name+"</a>";
-        HTML listItem = new HTML(s);
-        listItem.addClickHandler(handler);
+        XHtmlWidget btn = new XHtmlWidget(s);
+        btn.addClickHandler(handler);
 
-        html.add(listItem, "abstractPanelCaption-"+viewId);
+        html.add(btn, "abstractPanelCaption-"+viewId);
     }
 
     public void addBackButton(String name, final ClickHandler handler)
     {
         String s = "<a class=\"button back\">"+name+"</a>";
-        HTML listItem = new HTML(s);
-        listItem.addClickHandler(handler);
+        XHtmlWidget btn = new XHtmlWidget(s);
+        btn.addClickHandler(handler);
 
-        html.add(listItem, "abstractPanelCaption-"+viewId);
+        html.add(btn, "abstractPanelCaption-"+viewId);
     }
 
     public void addCancelButton(String name, final ClickHandler handler)
     {
         String s = "<a class=\"button cancel\">"+name+"</a>";
-        HTML listItem = new HTML(s);
-        listItem.addClickHandler(handler);
+        XHtmlWidget btn = new XHtmlWidget(s);
+        btn.addClickHandler(handler);
 
-        html.add(listItem, "abstractPanelCaption-"+viewId);
+        html.add(btn, "abstractPanelCaption-"+viewId);
     }
 
     @Override

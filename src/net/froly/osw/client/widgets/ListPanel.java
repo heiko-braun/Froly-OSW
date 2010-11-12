@@ -9,21 +9,22 @@ import com.google.gwt.user.client.ui.Widget;
  * Simple list panel implementation
  */
 public class ListPanel extends AbstractPanel {
-      
+    
     public ListPanel(String title) {
         super(title);
-    }
+    }  
 
     @Override
     protected void htmlCallback(SafeHtmlBuilder sb) {
         sb.appendHtmlConstant("<div id='listPanelPre-"+viewId+"'></div>");
-        sb.appendHtmlConstant("<ul id='listPanelContainer-"+viewId+"' class='rounded'></ul>");        
+        sb.appendHtmlConstant("<ul id='listPanelContainer-"+viewId+"' class='rounded'></ul>");
         sb.appendHtmlConstant("<div id='listPanelPost-"+viewId+"'></div>");
     }
 
     public void addItem(String name, final ClickHandler handler)
     {
-        String s = "<li class='arrow'><a href='#'>" + name + "</a></li>";        
+        // '#' links will be ignored by jqTouch, but match the default css selector
+        String s = "<li class='arrow'><a href='#'>" + name + "</a></li>";
         XHtmlWidget listItem = new XHtmlWidget(s);
         listItem.addClickHandler(handler);
         html.add(listItem, "listPanelContainer-"+viewId);
