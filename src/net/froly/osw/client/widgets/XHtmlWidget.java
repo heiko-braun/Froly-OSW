@@ -2,7 +2,6 @@ package net.froly.osw.client.widgets;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -62,16 +61,18 @@ public class XHtmlWidget extends Widget implements HasClickHandlers {
         int type = event.getTypeInt();
         if(Event.ONMOUSEDOWN==type)
         {
-            Element child = (Element)getElement().getFirstChild();
+            Element child = getElement().getFirstChildElement();
             if(child!=null)  // jqTouch 'ul li a.active' selector
-                child.addClassName("active");
+                child.addClassName("active");            
         }
         else if(Event.ONMOUSEUP==type)
         {
-            Element child = (Element)getElement().getFirstChild();
+            Element child = getElement().getFirstChildElement();
             if(child!=null)
                 child.removeClassName("active");
         }
+
+        // delegate
         super.onBrowserEvent(event);
     }
 }
