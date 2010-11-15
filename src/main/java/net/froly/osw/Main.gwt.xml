@@ -1,0 +1,18 @@
+<module rename-to="Main">
+
+    <!-- Inherit the core Web Toolkit stuff.                  -->
+    <inherits name='com.google.gwt.user.User'/>
+    
+    <stylesheet src="jqtouch/jqtouch.css" />
+    <stylesheet src="themes/jqt/theme.css"/>
+    <stylesheet src="osw.css"/>
+
+    <script src="jqtouch/jquery-1.4.2.min.js"/>
+    <script src="jqtouch/jqtouch.js"/>
+    
+    <!-- Specify the app entry point class.                   -->
+    <entry-point class='net.froly.osw.client.OswClient'/>
+
+
+    <servlet path="/ActivityService" class="net.froly.osw.server.model.ActivityServiceImpl"/>
+</module>
