@@ -1,7 +1,6 @@
 package net.froly.osw.client.view;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -85,9 +84,7 @@ public class MessageListView extends ContentListPanel {
                                 }
                             });
 
-                        }
-
-                        prepareScroll(html.getElement());
+                        }                       
                     }
 
                 });
@@ -95,10 +92,5 @@ public class MessageListView extends ContentListPanel {
 
             }
         });
-    }
-
-    public static native void prepareScroll(Element scrollNode) /*-{
-        var options = {};
-        var scroller = new TouchScroll(scrollNode, options);        
-    }-*/;
+    }    
 }
