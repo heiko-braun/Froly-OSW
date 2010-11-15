@@ -33,8 +33,7 @@ public class MessageListView extends ContentListPanel {
     protected void widgetCallback(HTMLPanel widget) {
 
         super.widgetCallback(widget);
-
-        html.addStyleName("content");
+        
         addBackButton("Back", new RevealHandler("home", View.SLIDERIGHT));        
         addButton("Refresh", new ClickHandler()
         {
