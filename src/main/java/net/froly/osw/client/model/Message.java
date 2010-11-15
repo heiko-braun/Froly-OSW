@@ -1,9 +1,7 @@
 package net.froly.osw.client.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Message implements Serializable {
 
@@ -14,6 +12,7 @@ public class Message implements Serializable {
     private String message;
 
     private int numReplies;
+    private Set<String> recipients = new HashSet<String>();
 
     public Message(String id, String from, String message) {
         this.id = id;
@@ -23,6 +22,14 @@ public class Message implements Serializable {
 
     public Message() {
 
+    }
+
+    public Set<String> getRecipients() {
+        return recipients;
+    }
+
+    public void setRecipients(Set<String> recipients) {
+        this.recipients = recipients;
     }
 
     public String getId() {

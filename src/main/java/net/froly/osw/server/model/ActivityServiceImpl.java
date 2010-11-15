@@ -7,6 +7,7 @@ import org.onesocialweb.client.Inbox;
 import org.onesocialweb.client.OswService;
 import org.onesocialweb.client.OswServiceFactory;
 import org.onesocialweb.model.activity.ActivityEntry;
+import org.onesocialweb.model.atom.AtomReplyTo;
 import org.onesocialweb.smack.OswServiceFactoryImp;
 
 import javax.servlet.ServletConfig;
@@ -14,6 +15,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ActivityServiceImpl extends RemoteServiceServlet implements ActivityService {
@@ -61,11 +63,19 @@ public class ActivityServiceImpl extends RemoteServiceServlet implements Activit
                     DateFormat.getDateTimeInstance(DateFormat.SHORT,
                             DateFormat.SHORT).format(activity.getPublished()) : null;
 
+            
 
             Message message = new Message(activity.getId(), author, status);
             message.setDateFrom(published);
             message.setNumReplies(activity.getRepliesLink()!=null? activity.getRepliesLink().getCount() : 0);
 
+            // recipients
+            Iterator<AtomReplyTo> recipients = activity.getRecipients().iterator();
+			while (recipients.hasNext()) {
+				final AtomReplyTo recipient = recipients.next();
+				final String recipientJID = extractRecipientJID(recipient.getHref());
+                message.getRecipients().add(recipientJID);
+            }
 
             messages.add(message);
 
@@ -76,4 +86,18 @@ public class ActivityServiceImpl extends RemoteServiceServlet implements Activit
     }
 
 
+    private String extractRecipientJID(String recipientHref) {
+		if(recipientHref.startsWith("xmpp:")) {
+			int i = recipientHref.indexOf("?");
+			if(i == -1) {
+				return "";
+			}
+			else {
+				return recipientHref.substring(5, i);
+			}
+		}
+		else {
+			return recipientHref;
+		}
+	}
 }
