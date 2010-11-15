@@ -5,4 +5,12 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
 
+    <servlet>
+        <servlet-name>net.froly.osw.Main ActivityService</servlet-name>
+        <servlet-class>net.froly.osw.server.model.ActivityServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>net.froly.osw.Main ActivityService</servlet-name>
+        <url-pattern>/Main/ActivityService</url-pattern>
+    </servlet-mapping>
 </web-app>
