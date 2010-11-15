@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
+import net.froly.osw.client.Tokens;
 import net.froly.osw.client.widgets.ListPanel;
 
 public class HomeView extends ListPanel {
@@ -23,12 +24,12 @@ public class HomeView extends ListPanel {
         addItem("Messages", new ClickHandler()
         {
             public void onClick(ClickEvent event) {
-                OswClient.getViewManagement().showView("messages");
+                OswClient.getViewManagement().showView(Tokens.MESSSAGES);
             }
         });
 
-        addItem("Contacts", new RevealHandler("contacts"));
-        addItem("Settings", new RevealHandler("settings"));
+        addItem("Contacts", new RevealHandler(Tokens.CONTACTS));
+        addItem("Settings", new RevealHandler(Tokens.SETTINGS));
 
         //addPost(new HTML("<div class='content' style='color:#808080'>We dream of a world where all social networks are connected and work together in a way similar to email. Our project aims to define a language to bridge these networks and make it easy for social networks to join a bigger social web. You're invited to help make this a reality.</div>"));
         
