@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.froly</groupId>
+    <artifactId>osw-client</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Froly OSW Client</name>
+    <packaging>war</packaging>
+
+    <properties>
+        <gwt.version>2.1</gwt.version>
+        <gwt.maven>1.3-SNAPSHOT</gwt.maven>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <outputDirectory>war/WEB-INF/classes</outputDirectory>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt.maven}</version>
+                <configuration>
+                    <inplace>true</inplace>
+                    <logLevel>TRACE</logLevel>
+                    <runTarget>App.html</runTarget>
+                    <warSourceDirectory>war</warSourceDirectory>
+                    <extraJvmArgs>-Xmx512m -DDEBUG</extraJvmArgs>
+                    <servicePattern>**/*Service.java</servicePattern>
+                    <soyc>false</soyc>
+                    <style>OBF</style>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                            <goal>resources</goal>                                                        
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1-beta-1</version>
+                <configuration>
+                    <warSourceDirectory>war</warSourceDirectory>
+                    <webappDirectory>war</webappDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>clean.war</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <tasks>                                
+                                <delete dir="war/WEB-INF/classes" />
+                                <delete dir="war/WEB-INF/lib" />
+                                <delete dir="war/META-INF" />
+                                <delete dir="war/Main" />                               
+                                <delete dir="target" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+            <version>${gwt.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${gwt.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.onesocialweb</groupId>
+            <artifactId>osw-model</artifactId>
+            <version>0.7.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onesocialweb</groupId>
+            <artifactId>osw-lib-java</artifactId>
+            <version>0.7.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gwt-mobile-webkit</groupId>
+            <artifactId>gwt-html5-storage</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+       
+    </dependencies>
+
+    <repositories>        
+        <repository>
+            <id>gwt-mobile-webkit</id>
+            <url>http://gwt-mobile-webkit.googlecode.com/svn/repo</url>
+        </repository>        
+
+        <repository>
+            <id>osw-repo</id>
+            <name>osw-repo-google</name>
+            <url>http://osw-repo.googlecode.com/svn/trunk/</url>
+        </repository>
+    </repositories>
+
+</project>
