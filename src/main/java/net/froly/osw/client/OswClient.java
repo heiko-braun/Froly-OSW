@@ -27,7 +27,8 @@ public class OswClient implements EntryPoint {
         // ---------------------------------
         // Messages
  
-        viewManagement.addView(Tokens.MESSSAGES, new MessageView());
+        viewManagement.addView(Tokens.MESSSAGES, new MessageListView());
+        viewManagement.addView(Tokens.MESSSAGE_DETAIL, new MessageDetailView());
 
 
         // ---------------------------------
@@ -49,16 +50,16 @@ public class OswClient implements EntryPoint {
 
         // progress
 
-        loading = new PopupPanel(true);
-        loading.setWidget(new HTML("<div class='loading'>Loading...</div>"));        
+        //loading = new PopupPanel(true);
+        //loading.setWidget(new HTML("<div class='loading'>Loading...</div>"));
     }
 
     public static void loading(boolean visible)
     {
-        if(visible)
+        /*if(visible)
             loading.show();
         else
-            loading.hide();
+            loading.hide();*/
     }
 
     public static ViewManagement getViewManagement()
