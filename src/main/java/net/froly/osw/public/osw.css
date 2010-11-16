@@ -44,3 +44,59 @@
     top: 120px;
     width: 200px;    
 }
+
+/* tab bar additions */
+
+#jqt .tabbar {
+		display: -webkit-box;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		height: 48px;
+		border-top: 1px solid #000;
+		background-image:
+		-webkit-gradient(
+			linear,
+			0 0,
+			0 100%,
+			color-stop(0.0, #2e2e2e),
+			color-stop(0.5, #151515),
+			color-stop(0.5, #000)
+		);
+	}
+
+	#jqt .tabbar ul,
+	#jqt .tabbar li {
+		margin: 0;
+		padding: 0;
+		display: -webkit-box;
+		-webkit-box-flex: 1;
+		list-style-type: none;
+	}
+
+	#jqt .tabbar a {
+		display: block;
+		-webkit-box-flex: 1;
+		margin: 2px;
+		padding: 14px !important;
+		font: bold 14px "Helvetica Neue", Helvetica;
+		text-align: center;
+		color: #999;
+		text-decoration: none;
+		font-weight: normal;
+		letter-spacing: 1px;
+	}
+
+	#jqt .tabbar a.current {
+		color: #fff;
+		-webkit-border-radius: 3px;
+		background-image:
+		-webkit-gradient(
+			linear,
+			0 0,
+			0 100%,
+			color-stop(0.0, #494949),
+			color-stop(0.5, #353535),
+			color-stop(0.5, #252525)
+		);
+	}	
