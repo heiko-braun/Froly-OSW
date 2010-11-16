@@ -16,9 +16,9 @@ public class ListPanel extends AbstractPanel {
 
     @Override
     protected void htmlCallback(SafeHtmlBuilder sb) {
-        //sb.appendHtmlConstant("<div id='listPanelPre-"+viewId+"'></div>");
+        sb.appendHtmlConstant("<div id='listPanelPre-"+viewId+"'></div>");
         sb.appendHtmlConstant("<ul id='listPanelContainer-"+viewId+"' class='rounded'></ul>");
-        //sb.appendHtmlConstant("<div id='listPanelPost-"+viewId+"'></div>");
+        sb.appendHtmlConstant("<div id='listPanelPost-"+viewId+"'></div>");
     }
 
     public void addItem(String name, final ClickHandler handler)
@@ -32,12 +32,12 @@ public class ListPanel extends AbstractPanel {
 
     public void addPre(HTML content)
     {
-       // html.add(content, "listPanelPre-"+viewId);
+       html.add(content, "listPanelPre-"+viewId);
     }
 
     public void addPost(HTML content)
     {
-        //html.add(content, "listPanelPost-"+viewId);    
+       html.add(content, "listPanelPost-"+viewId);    
     }
 
     public Widget asWidget() {
