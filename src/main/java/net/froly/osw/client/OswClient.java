@@ -1,7 +1,6 @@
 package net.froly.osw.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import net.froly.osw.client.view.*;
 import net.froly.osw.client.widgets.XHtmlWidget;
@@ -17,8 +16,6 @@ public class OswClient implements EntryPoint {
 
     public void onModuleLoad() {
 
-        initJQTouch();
-                        
         // ---------------------------------
         // Home
 
@@ -43,15 +40,17 @@ public class OswClient implements EntryPoint {
         viewManagement.addView(Tokens.CONTACTS, new ContactsView());
         
         // ---------------------------------
-        
-        // default view
-        viewManagement.showView(Tokens.HOME, View.FADE);
-
 
         // progress
 
         //loading = new PopupPanel(true);
         //loading.setWidget(new HTML("<div class='loading'>Loading...</div>"));
+
+        initJQTouch();
+
+        // default view
+        viewManagement.showView(Tokens.HOME, View.FADE);
+
     }
 
     public static void loading(boolean visible)
@@ -76,11 +75,14 @@ public class OswClient implements EntryPoint {
     
     public static native void initJQTouch() /*-{
         $wnd.jQT = $wnd.$.jQTouch({            
-            statusBar: 'black'
+            statusBar: 'black',
+            useFastTouch: true,
+            startupScreen: "home"
         });        
     }-*/;
 
     public static native void goTo(String page, String anim) /*-{        
         $wnd.jQT.goTo("#"+page, anim);
     }-*/;
+
 }
