@@ -29,6 +29,20 @@ public class MessageListView extends ContentListPanel {
     }
 
     @Override
+    protected void htmlCallback(SafeHtmlBuilder sb) {
+        super.htmlCallback(sb);
+
+        sb.appendHtmlConstant("<div class='tabbar'>");
+        sb.appendHtmlConstant("<ul>" +
+                "<li><a href='#'>One</a></li>" +
+                "<li><a href='#'>Two</a></li>" +
+                "<li><a href='#'>Three</a></li>" +
+                "</ul>");
+        sb.appendHtmlConstant("</div>");
+
+    }
+
+    @Override
     protected void widgetCallback(HTMLPanel widget) {
 
         super.widgetCallback(widget);
