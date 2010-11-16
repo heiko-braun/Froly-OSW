@@ -5,10 +5,12 @@
     
     <stylesheet src="jqtouch/jqtouch.css" />
     <stylesheet src="themes/jqt/theme.css"/>
+    <stylesheet src="jqtext/scrolling.css"/>
     <stylesheet src="osw.css"/>
 
     <script src="jqtouch/jquery-1.4.2.min.js"/>
     <script src="jqtouch/jqtouch.js"/>
+    <script src="jqtext/jqt.scroll.js"/>
     
     <!-- Specify the app entry point class.                   -->
     <entry-point class='net.froly.osw.client.OswClient'/>
