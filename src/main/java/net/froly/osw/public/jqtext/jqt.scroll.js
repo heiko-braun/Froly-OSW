@@ -1,4 +1,4 @@
-/*!*
+/**
  *
  * Add support for scrolling vertically and horizontally using jQTouch in Webkit Mobile
  * Plus support for slides
@@ -584,8 +584,9 @@
 
         $.jQTouch.addExtension(function (jQT) {
             var d = defaults;
-
+                                        
             function binder (e, info) {
+                
                 var v = d.vertical, h = d.horizontal,
                     vertical = info.page.find(v.selector),
                     horizontal = info.page.find(h.selector);
@@ -611,9 +612,13 @@
                     });
             });
 
+            console.log("scroll extension created (jqt.scroll.js)");
+            
             return {};
         });
-    }
+    } 
+
+    
 
     //$(window).bind("unload", window_unload);
 
@@ -724,6 +729,7 @@
      *    @return null
      */
     function inertiaScroll (element, options) {
+        console.log("inertiaScroll setup on " + element.id);
         var $element = $(element).data("jqt-scroll-options", options)
                             .css("webkitTransform", format(options.tranform, options.defaultOffset)),
             transform = $element.css("webkitTransform"),
@@ -733,6 +739,7 @@
             //these events get attatch
             //if (!name.match(/^touchend|touchcancel|touchmove/)) {
                 element.addEventListener(name, func, false);
+                console.log("add event listener to " + element.id);
             //}
         });
 
