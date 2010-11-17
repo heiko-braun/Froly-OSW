@@ -2,6 +2,7 @@ package net.froly.osw.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import net.froly.osw.client.view.*;
 import net.froly.osw.client.widgets.XHtmlWidget;
 
@@ -15,6 +16,9 @@ public class OswClient implements EntryPoint {
     private static PopupPanel loading;
 
     public void onModuleLoad() {
+
+        XHtmlWidget blank = new XHtmlWidget("<div style='margin:0px; background-color:black; width:100%; height:100%; z-index:999; padding:0px; top:0px; left:0px;'/>");
+        RootPanel.get().add(blank);
 
         // ---------------------------------
         // Home
@@ -48,6 +52,8 @@ public class OswClient implements EntryPoint {
 
         initJQTouch();
 
+        blank.setVisible(false);
+        
         // default view
         viewManagement.showView(Tokens.HOME, View.FADE);
 
