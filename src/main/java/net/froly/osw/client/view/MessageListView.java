@@ -12,34 +12,20 @@ import net.froly.osw.client.ViewManagement;
 import net.froly.osw.client.model.ActivityService;
 import net.froly.osw.client.model.ActivityServiceAsync;
 import net.froly.osw.client.model.Message;
-import net.froly.osw.client.widgets.ContentListPanel;
+import net.froly.osw.client.widgets.ScrollContentListPanel;
 
 import java.util.List;
 
 /**
  * message panel
  */
-public class MessageListView extends ContentListPanel {
+public class MessageListView extends ScrollContentListPanel {
 
 
     private ActivityServiceAsync service = ActivityService.App.getInstance();
 
     public MessageListView() {
-        super("Messages");
-    }
-
-    @Override
-    protected void htmlCallback(SafeHtmlBuilder sb) {
-        super.htmlCallback(sb);
-
-        sb.appendHtmlConstant("<div class='tabbar'>");
-        sb.appendHtmlConstant("<ul>" +
-                "<li><a href='#'>One</a></li>" +
-                "<li><a href='#'>Two</a></li>" +
-                "<li><a href='#'>Three</a></li>" +
-                "</ul>");
-        sb.appendHtmlConstant("</div>");
-
+        super("Messages");        
     }
 
     @Override
@@ -106,5 +92,18 @@ public class MessageListView extends ContentListPanel {
 
             }
         });
+
+
+        // bottom toolbar
+
+        super.addBottom("New Message", new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                System.out.println("Click click");
+            }
+        });
+
+
     }    
 }
