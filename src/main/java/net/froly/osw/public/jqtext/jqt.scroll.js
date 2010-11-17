@@ -142,7 +142,7 @@
             divider: 6,
 
             /**
-             *    List of touch enevts to listen to. (Hopefully add support for non-touch one day)
+             *    List of touch events to listen to. (Hopefully add support for non-touch one day)
              *
              *    @var Array<String>
              */
