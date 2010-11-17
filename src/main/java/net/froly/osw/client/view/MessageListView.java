@@ -96,13 +96,7 @@ public class MessageListView extends ScrollContentListPanel {
 
         // bottom toolbar
 
-        super.addBottom("New Message", new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent clickEvent) {
-                System.out.println("Click click");
-            }
-        });
+        super.addBottom("Compose", new RevealHandler(Tokens.MESSSAGE_COMPOSE, View.SLIDEUP));
 
 
     }    

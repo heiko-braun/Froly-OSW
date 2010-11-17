@@ -1,23 +1,21 @@
 package net.froly.osw.client.view;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
+import net.froly.osw.client.ViewManagement;
 import net.froly.osw.client.model.Message;
-import net.froly.osw.client.widgets.AbstractPanel;
+import net.froly.osw.client.widgets.ScrollContentListPanel;
 
 
-public class MessageDetailView extends AbstractPanel {
+public class MessageDetailView extends ScrollContentListPanel {
 
     public MessageDetailView() {
         super("Message Detail");    
-    }
-
-    @Override
-    protected void htmlCallback(SafeHtmlBuilder sb) {
-        sb.appendHtmlConstant("<div id='message-detail-"+viewId+"'/>");
-        sb.appendHtmlConstant("<ul class='individual' id='message-buttons-"+viewId+"'/>");        
     }
 
     @Override
@@ -26,12 +24,24 @@ public class MessageDetailView extends AbstractPanel {
 
         //HTML replyBtn = new HTML("<li><a href='#'>Reply</a></li>");
         //html.add(replyBtn, "message-buttons-"+viewId);
+
+        addBottom("Reply", new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+
+                ViewManagement viewManagement = OswClient.getViewManagement();
+                ComposeMessageView composer = (ComposeMessageView) viewManagement.getView(Tokens.MESSSAGE_COMPOSE);
+                composer.setIsReply(true);
+                viewManagement.showView(Tokens.MESSSAGE_COMPOSE, View.SLIDEUP);
+            }
+        });
     }
 
     public void display(Message message)
     {
         // clear
-        final String targetId = "message-detail-" + viewId;
+        final String targetId = "scroll-" + viewId;
         html.getElementById(targetId).setInnerHTML("<div/>");
 
         SafeHtmlBuilder sb = new SafeHtmlBuilder();
