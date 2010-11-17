@@ -7,4 +7,8 @@ import java.util.List;
 public interface ActivityServiceAsync {
 
     void getMessages(AsyncCallback<List<Message>> callback);
+    
+    void sendMessage(Message msg, AsyncCallback<Void> async);
+
+    void deleteMessage(String id, AsyncCallback<Void> async);
 }

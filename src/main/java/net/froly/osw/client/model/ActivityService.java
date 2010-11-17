@@ -11,6 +11,11 @@ public interface ActivityService extends RemoteService {
 
     List<Message> getMessages();
 
+    void sendMessage(Message msg);
+
+    void deleteMessage(String id);
+
+
     /**
      * Utility/Convenience class.
      * Use ActivityService.App.getInstance() to access static instance of ActivityServiceAsync

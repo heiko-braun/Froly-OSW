@@ -1,55 +1,50 @@
 package net.froly.osw.server.model;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import net.froly.osw.client.model.ActivityService;
 import net.froly.osw.client.model.Message;
 import org.onesocialweb.client.Inbox;
 import org.onesocialweb.client.OswService;
-import org.onesocialweb.client.OswServiceFactory;
-import org.onesocialweb.model.activity.ActivityEntry;
+import org.onesocialweb.model.acl.*;
+import org.onesocialweb.model.activity.*;
+import org.onesocialweb.model.atom.AtomFactory;
+import org.onesocialweb.model.atom.AtomGenerator;
 import org.onesocialweb.model.atom.AtomReplyTo;
-import org.onesocialweb.smack.OswServiceFactoryImp;
+import org.onesocialweb.model.atom.DefaultAtomFactory;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
-public class ActivityServiceImpl extends RemoteServiceServlet implements ActivityService {
+public class ActivityServiceImpl extends OswServiceServlet implements ActivityService {
+    
+    private ActivityFactory activityFactory = new DefaultActivityFactory();
+    private AtomFactory atomFactory = new DefaultAtomFactory();
+    private AclFactory aclFactory = new DefaultAclFactory();
+    /*private RelationFactory relationFactory = new DefaultRelationFactory();
+    private VCard4Factory profileFactory = new DefaultVCard4Factory();*/
 
-    private OswService osw = null;
-    public static final int PORT = 5222;
-    private static final String USERNAME = "heiko";
-    private static final String PASSWORD = "12uy.Er4";
+    /** Default acl setting for activities */
+    private List<AclRule> defaultRules;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
-        ServletContext context = config.getServletContext();
-        if(null==context.getAttribute("osw"))
-        {
-            OswServiceFactory serviceFactory = new OswServiceFactoryImp();
-            context.setAttribute("osw", serviceFactory.createService());
-        }
-
-        this.osw = (OswService)context.getAttribute("osw");
+        AclRule rule = aclFactory.aclRule();
+        rule.addSubject(aclFactory.aclSubject(null, AclSubject.EVERYONE));
+        rule.addAction(aclFactory.aclAction(AclAction.ACTION_VIEW, AclAction.PERMISSION_GRANT));
+        defaultRules = new ArrayList<AclRule>();
+        defaultRules.add(rule);
+                
     }
 
     public List<Message> getMessages() {
 
-        if(!osw.isConnected())
-        {
-            try {
-                osw.connect("social.openliven.com", PORT, null);
-                osw.login(USERNAME, PASSWORD, "console");
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to connect", e);
-            }
-        }
+        OswService osw = getOrCreateService();
 
         Inbox inbox = osw.getInbox();
         inbox.refresh();
@@ -85,6 +80,40 @@ public class ActivityServiceImpl extends RemoteServiceServlet implements Activit
 
     }
 
+    @Override
+    public void sendMessage(Message msg) {
+
+        final String message = msg.getMessage();
+
+        ActivityObject object = activityFactory.object();
+        object.setType(ActivityObject.STATUS_UPDATE);
+        object.addContent(atomFactory.content(message, "text/plain", null));
+
+        ActivityEntry entry = activityFactory.entry();
+        entry.setPublished(Calendar.getInstance().getTime());
+        entry.addVerb(activityFactory.verb(ActivityVerb.POST));
+        entry.addObject(object);
+        entry.setAclRules(defaultRules);
+        entry.setTitle(message);
+
+        AtomGenerator generator = atomFactory.generator();
+        generator.setUri("http:/froly.net/osw-client");
+        generator.setVersion("0.1");
+        generator.setText("froly-osw");
+        entry.setGenerator(generator);
+
+        try {
+            OswService osw = getOrCreateService();
+            osw.postActivity(entry);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send Message", e);
+        }
+    }
+
+    @Override
+    public void deleteMessage(String id) {
+        
+    }
 
     private String extractRecipientJID(String recipientHref) {
 		if(recipientHref.startsWith("xmpp:")) {
@@ -100,4 +129,5 @@ public class ActivityServiceImpl extends RemoteServiceServlet implements Activit
 			return recipientHref;
 		}
 	}
+
 }
