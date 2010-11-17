@@ -8,4 +8,5 @@ public class Tokens {
     public final static String CONTACTS = "contacts";
     public final static String SETTINGS = "settings";
 
+    public static final String MESSAGE_CONVERSATION = "message-conversation";
 }

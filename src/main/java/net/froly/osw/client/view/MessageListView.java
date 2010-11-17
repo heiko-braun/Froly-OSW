@@ -33,7 +33,7 @@ public class MessageListView extends ScrollContentListPanel {
 
         super.widgetCallback(widget);
         
-        addBackButton("Back", new RevealHandler("home", View.SLIDERIGHT));        
+        addBackButton("Home", new RevealHandler(Tokens.HOME, View.SLIDERIGHT));        
         addButton("Refresh", new ClickHandler()
         {
             public void onClick(ClickEvent event) {
@@ -73,13 +73,28 @@ public class MessageListView extends ScrollContentListPanel {
                                 @Override
                                 public void onClick(ClickEvent clickEvent) {
 
-                                    // update view
                                     ViewManagement viewManagement = OswClient.getViewManagement();
-                                    MessageDetailView detail = (MessageDetailView)viewManagement.getView(Tokens.MESSSAGE_DETAIL);
-                                    detail.display(message);
 
-                                    // revel it
-                                    viewManagement.showView(Tokens.MESSSAGE_DETAIL);
+                                    if(message.getNumReplies()==0)
+                                    {
+                                        // no replies, direct view
+                                        MessageDetailView detail = (MessageDetailView)viewManagement.getView(Tokens.MESSSAGE_DETAIL);
+                                        detail.display(message);
+
+                                        // revel it
+                                        viewManagement.showView(Tokens.MESSSAGE_DETAIL);
+                                    }
+                                    else
+                                    {
+                                        // has replies, threaded conversation view
+                                        ConversationView conversation = (ConversationView)
+                                            viewManagement.getView(Tokens.MESSAGE_CONVERSATION);
+                                        conversation.setParent(message);
+                                        conversation.update();
+
+                                        // revel it
+                                        viewManagement.showView(Tokens.MESSAGE_CONVERSATION);    
+                                    }
 
                                 }
                             });

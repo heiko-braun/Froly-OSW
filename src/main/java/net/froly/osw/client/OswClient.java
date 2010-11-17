@@ -31,6 +31,7 @@ public class OswClient implements EntryPoint {
         viewManagement.addView(Tokens.MESSSAGES, new MessageListView());
         viewManagement.addView(Tokens.MESSSAGE_DETAIL, new MessageDetailView());
         viewManagement.addView(Tokens.MESSSAGE_COMPOSE, new ComposeMessageView());
+        viewManagement.addView(Tokens.MESSAGE_CONVERSATION, new ConversationView());
 
 
         // ---------------------------------

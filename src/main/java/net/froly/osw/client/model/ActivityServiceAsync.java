@@ -11,4 +11,6 @@ public interface ActivityServiceAsync {
     void sendMessage(Message msg, AsyncCallback<Void> async);
 
     void deleteMessage(String id, AsyncCallback<Void> async);
+
+    void getReplies(String id, AsyncCallback<List<Message>> async);
 }

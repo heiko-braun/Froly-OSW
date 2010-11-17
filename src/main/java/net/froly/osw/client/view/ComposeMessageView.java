@@ -49,6 +49,10 @@ public class ComposeMessageView extends AbstractPanel {
             @Override
             public void onClick(ClickEvent clickEvent) {
                 String payload = getMsgText(viewId);
+
+                if(null==payload || payload.equals(""))
+                    return;
+
                 Message message  = new Message();
                 message.setMessage(payload);
 

@@ -14,13 +14,25 @@ import net.froly.osw.client.widgets.ScrollContentListPanel;
 
 public class MessageDetailView extends ScrollContentListPanel {
 
+    private boolean isConversation = false;
+
     public MessageDetailView() {
         super("Message Detail");    
     }
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
-        addBackButton("Back", new RevealHandler(Tokens.MESSSAGES, View.SLIDERIGHT));
+        addBackButton("Back", new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                String target = isConversation() ? Tokens.MESSAGE_CONVERSATION : Tokens.MESSSAGES;
+                OswClient.getViewManagement().showView(target, View.SLIDERIGHT);
+
+                // clear state
+                setConversation(false);
+            }
+        });
 
         //HTML replyBtn = new HTML("<li><a href='#'>Reply</a></li>");
         //html.add(replyBtn, "message-buttons-"+viewId);
@@ -56,6 +68,14 @@ public class MessageDetailView extends ScrollContentListPanel {
 
         html.add(new HTML(sb.toSafeHtml()), targetId);
 
+    }
+    
+    public void setConversation(boolean conversation) {
+        isConversation = conversation;
+    }
+
+    public boolean isConversation() {
+        return isConversation;
     }
 }
 

@@ -7,20 +7,19 @@ import org.onesocialweb.client.OswService;
 import org.onesocialweb.model.acl.*;
 import org.onesocialweb.model.activity.*;
 import org.onesocialweb.model.atom.AtomFactory;
-import org.onesocialweb.model.atom.AtomGenerator;
 import org.onesocialweb.model.atom.AtomReplyTo;
 import org.onesocialweb.model.atom.DefaultAtomFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class ActivityServiceImpl extends OswServiceServlet implements ActivityService {
-    
+
+    private static Logger log = Logger.getLogger(ActivityServiceImpl.class.getName());
+
     private ActivityFactory activityFactory = new DefaultActivityFactory();
     private AtomFactory atomFactory = new DefaultAtomFactory();
     private AclFactory aclFactory = new DefaultAclFactory();
@@ -41,43 +40,70 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
         defaultRules.add(rule);
                 
     }
-
+    
     public List<Message> getMessages() {
 
-        OswService osw = getOrCreateService();
-
+        final OswService osw = getOrCreateService();
+                
         Inbox inbox = osw.getInbox();
         inbox.refresh();
 
         List<Message> messages = new ArrayList<Message>();
         for(ActivityEntry activity : inbox.getEntries())
         {
-            String author = (activity.hasActor()) ? activity.getActor().getUri() : null;
-            String status = (activity.hasTitle()) ? activity.getTitle() : null;
-            String published = (activity.hasPublished()) ?
-                    DateFormat.getDateTimeInstance(DateFormat.SHORT,
-                            DateFormat.SHORT).format(activity.getPublished()) : null;
-
-            
-
-            Message message = new Message(activity.getId(), author, status);
-            message.setDateFrom(published);
-            message.setNumReplies(activity.getRepliesLink()!=null? activity.getRepliesLink().getCount() : 0);
-
-            // recipients
-            Iterator<AtomReplyTo> recipients = activity.getRecipients().iterator();
-			while (recipients.hasNext()) {
-				final AtomReplyTo recipient = recipients.next();
-				final String recipientJID = extractRecipientJID(recipient.getHref());
-                message.getRecipients().add(recipientJID);
-            }
-
+            Message message = activityToMessage(activity);
             messages.add(message);
-
         }
 
         return messages;
 
+    }
+
+    private static Message activityToMessage(ActivityEntry activity) {
+        String author = (activity.hasActor()) ? activity.getActor().getUri() : null;
+        String status = (activity.hasTitle()) ? activity.getTitle() : null;
+        String published = (activity.hasPublished()) ?
+                DateFormat.getDateTimeInstance(DateFormat.SHORT,
+                        DateFormat.SHORT).format(activity.getPublished()) : null;
+
+
+        Message message = new Message(activity.getId(), author, status);
+        message.setDateFrom(published);
+        message.setNumReplies(activity.getRepliesLink()!=null? activity.getRepliesLink().getCount() : 0);
+
+        // recipients
+        Iterator<AtomReplyTo> recipients = activity.getRecipients().iterator();
+        while (recipients.hasNext()) {
+            final AtomReplyTo recipient = recipients.next();
+            final String recipientJID = extractRecipientJID(recipient.getHref());
+            message.getRecipients().add(recipientJID);
+        }
+        return message;
+    }
+
+    @Override
+    public List<Message> getReplies(String id) {
+
+        final OswService osw = getOrCreateService();
+
+        Inbox inbox = osw.getInbox();
+        ActivityEntry activityEntry = inbox.getEntry(id);
+
+        List<Message> replies = new ArrayList<Message>();
+
+        try {
+            List<ActivityEntry> entries = osw.getReplies(activityEntry);
+            for(ActivityEntry entry : entries)
+                replies.add(activityToMessage(entry));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch replies", e);
+        }
+
+        // Create-Date ASC
+        Collections.reverse(replies);
+
+        return replies;
     }
 
     @Override
@@ -85,6 +111,9 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
 
         final String message = msg.getMessage();
 
+        if(null==message)
+            throw new RuntimeException("Message payload cannot be null");
+        
         ActivityObject object = activityFactory.object();
         object.setType(ActivityObject.STATUS_UPDATE);
         object.addContent(atomFactory.content(message, "text/plain", null));
@@ -95,13 +124,7 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
         entry.addObject(object);
         entry.setAclRules(defaultRules);
         entry.setTitle(message);
-
-        AtomGenerator generator = atomFactory.generator();
-        generator.setUri("http:/froly.net/osw-client");
-        generator.setVersion("0.1");
-        generator.setText("froly-osw");
-        entry.setGenerator(generator);
-
+        
         try {
             OswService osw = getOrCreateService();
             osw.postActivity(entry);
@@ -112,10 +135,15 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
 
     @Override
     public void deleteMessage(String id) {
-        
+        OswService osw = getOrCreateService();
+        try {
+            osw.deleteActivity(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete message", e);
+        }
     }
 
-    private String extractRecipientJID(String recipientHref) {
+    private static String extractRecipientJID(String recipientHref) {
 		if(recipientHref.startsWith("xmpp:")) {
 			int i = recipientHref.indexOf("?");
 			if(i == -1) {

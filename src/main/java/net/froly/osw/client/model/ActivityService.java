@@ -9,7 +9,10 @@ import java.util.List;
 @RemoteServiceRelativePath("ActivityService")
 public interface ActivityService extends RemoteService {
 
+
     List<Message> getMessages();
+
+    List<Message> getReplies(String id);
 
     void sendMessage(Message msg);
 
