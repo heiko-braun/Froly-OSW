@@ -9,8 +9,16 @@
         <servlet-name>net.froly.osw.Main ActivityService</servlet-name>
         <servlet-class>net.froly.osw.server.model.ActivityServiceImpl</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>net.froly.osw.Main ContactService</servlet-name>
+        <servlet-class>net.froly.osw.server.model.ContactServiceImpl</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>net.froly.osw.Main ActivityService</servlet-name>
         <url-pattern>/Main/ActivityService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>net.froly.osw.Main ContactService</servlet-name>
+        <url-pattern>/Main/ContactService</url-pattern>
     </servlet-mapping>
 </web-app>

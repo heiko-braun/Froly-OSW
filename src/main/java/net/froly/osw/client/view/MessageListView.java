@@ -34,7 +34,7 @@ public class MessageListView extends ScrollContentListView {
         super.widgetCallback(widget);
         
         addBackButton("Home", new RevealHandler(Tokens.HOME, View.SLIDERIGHT));        
-        addButton("Refresh", new ClickHandler()
+        addBottom("Refresh", new ClickHandler()
         {
             public void onClick(ClickEvent event) {
 

@@ -9,4 +9,6 @@ public class Tokens {
     public final static String SETTINGS = "settings";
 
     public static final String MESSAGE_CONVERSATION = "message-conversation";
+    public static final String PROFILE = "profile";
+
 }

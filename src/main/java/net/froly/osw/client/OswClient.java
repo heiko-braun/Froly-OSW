@@ -44,7 +44,8 @@ public class OswClient implements EntryPoint {
         // Contacts
         
         viewManagement.addView(Tokens.CONTACTS, new ContactsView());
-        
+        viewManagement.addView(Tokens.PROFILE, new ProfileView());
+
         // ---------------------------------
 
         // progress
@@ -93,4 +94,7 @@ public class OswClient implements EntryPoint {
         $wnd.jQT.goTo("#"+page, anim);
     }-*/;
 
+    public static String getCurrentUserJID() {
+        return "heiko@social.openliven.com";
+    }
 }

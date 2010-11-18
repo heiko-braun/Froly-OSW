@@ -1,10 +1,12 @@
 package net.froly.osw.server.model;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.jivesoftware.smack.XMPPConnection;
 import org.onesocialweb.client.OswService;
 import org.onesocialweb.client.OswServiceFactory;
 import org.onesocialweb.client.exception.ConnectionRequired;
 import org.onesocialweb.smack.OswServiceFactoryImp;
+import org.onesocialweb.smack.OswServiceImp;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -25,7 +27,13 @@ public class OswServiceServlet extends RemoteServiceServlet {
         if(null== session.getAttribute("osw"))
         {
             log.info("Create OSW service");
-            OswServiceFactory serviceFactory = new OswServiceFactoryImp();
+            OswServiceFactory serviceFactory = new OswServiceFactoryImp()
+            {
+                @Override
+                public OswService createService() {
+                    return new OswServiceExtension(); 
+                }
+            };
             session.setAttribute("osw", new ServiceHolder(serviceFactory.createService()));
         }
 
@@ -80,6 +88,14 @@ public class OswServiceServlet extends RemoteServiceServlet {
 
         public OswService getService() {
             return service;
+        }
+    }
+
+    class OswServiceExtension extends OswServiceImp
+    {
+        public XMPPConnection getConnection()
+        {
+            return connection;
         }
     }
 }
