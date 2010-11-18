@@ -45,11 +45,12 @@ public class XHtmlWidget extends Widget implements HasClickHandlers {
     }
     public static Element xMakeHtml(String x){
         xBLANK_X.setInnerHTML(x);
-        /*if(xUserAgent.xStandards())//Non IE browsers don't have to forget their reference to the new child
-            return xBLANK_X.getFirstChildElement();*/
-        Element xRet = xBLANK_X.getFirstChildElement();//Get the element created inside our div
+        /*if(xUserAgent.xStandards())//Non IE browsers don't have to forget their reference to the new child */
+        return xBLANK_X.getFirstChildElement();
+        
+        /*Element xRet = xBLANK_X.getFirstChildElement();//Get the element created inside our div
         xBLANK_X=xDiv();//Reset the div so IE won't lose it's reference the next time the xBLANK_X is overwritten
-        return xRet;
+        return xRet;*/
     }
 
     public HandlerRegistration addClickHandler(ClickHandler handler) {
