@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ConversationView extends ScrollContentListView {
 
-    private Message message = null;
+    private Message parent = null;
 
     public ConversationView() {
         super("Conversation");
@@ -32,15 +32,27 @@ public class ConversationView extends ScrollContentListView {
         addBackButton("Messages", new RevealHandler(Tokens.MESSSAGES, View.SLIDERIGHT));
 
         // bottom toolbar
-        super.addBottom("Reply", new RevealHandler(Tokens.MESSSAGE_COMPOSE, View.SLIDEUP));
+        super.addBottom("Reply", new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+
+                ViewManagement viewManagement = OswClient.getViewManagement();
+                ComposeMessageView composer = (ComposeMessageView)viewManagement.getView(Tokens.MESSSAGE_COMPOSE);
+                composer.setParent(getParent());
+                viewManagement.showView(Tokens.MESSSAGE_COMPOSE, View.SLIDEUP);
+            }
+        });
 
     }
 
-    public void update()
+    public void display(Message parent)
     {
+        this.parent = parent;
+
         clearContent();
 
-        addContent(renderMessage(getParent()), new MessageClickHandler(message));
+        addContent(renderMessage(getParent()), new MessageClickHandler(parent));
 
         ActivityService.App.getInstance().getReplies(
             getParent().getId(),new AsyncCallback<List<Message>>()
@@ -73,17 +85,13 @@ public class ConversationView extends ScrollContentListView {
         return sb.toSafeHtml();
     }
         
-    public Message getParent() {
-        return message;
-    }
-
-    public void setParent(Message message) {
-        this.message = message;
+    private Message getParent() {
+        return parent;
     }
 
     class MessageClickHandler implements ClickHandler
     {
-        private Message msg;
+        private final Message msg;
 
         MessageClickHandler(Message msg) {
             this.msg = msg;
@@ -94,7 +102,7 @@ public class ConversationView extends ScrollContentListView {
             // update view
             ViewManagement viewManagement = OswClient.getViewManagement();
             MessageDetailView detail = (MessageDetailView)viewManagement.getView(Tokens.MESSSAGE_DETAIL);
-            detail.setConversation(true);
+            detail.setParent(getParent());
             detail.display(this.msg);
 
             // reveal it

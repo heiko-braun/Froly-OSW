@@ -16,6 +16,8 @@ public interface ActivityService extends RemoteService {
 
     void sendMessage(Message msg);
 
+    void commentMessage(String parentId, Message msg);
+
     void deleteMessage(String id);
 
 

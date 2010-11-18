@@ -14,7 +14,8 @@ import net.froly.osw.client.widgets.ScrollContentListView;
 
 public class MessageDetailView extends ScrollContentListView {
 
-    private boolean isConversation = false;
+    private Message parent = null;
+    private Message message = null;
 
     public MessageDetailView() {
         super("Message Detail");    
@@ -26,11 +27,12 @@ public class MessageDetailView extends ScrollContentListView {
         {
             @Override
             public void onClick(ClickEvent clickEvent) {
-                String target = isConversation() ? Tokens.MESSAGE_CONVERSATION : Tokens.MESSSAGES;
+                String target = getParent() !=null ? Tokens.MESSAGE_CONVERSATION : Tokens.MESSSAGES;
                 OswClient.getViewManagement().showView(target, View.SLIDERIGHT);
 
                 // clear state
-                setConversation(false);
+                setParent(null);
+                setMessage(null);
             }
         });
 
@@ -44,7 +46,12 @@ public class MessageDetailView extends ScrollContentListView {
 
                 ViewManagement viewManagement = OswClient.getViewManagement();
                 ComposeMessageView composer = (ComposeMessageView) viewManagement.getView(Tokens.MESSSAGE_COMPOSE);
-                composer.setIsReply(true);
+
+                // either a conversation handle exists, or we create one
+                Message conversationParent = getParent() !=null ?
+                        getParent() : getMessage();
+                
+                composer.setParent(conversationParent);
                 viewManagement.showView(Tokens.MESSSAGE_COMPOSE, View.SLIDEUP);
             }
         });
@@ -52,6 +59,8 @@ public class MessageDetailView extends ScrollContentListView {
 
     public void display(Message message)
     {
+        setMessage(message);
+
         // clear
         final String targetId = "scroll-" + viewId;
         html.getElementById(targetId).setInnerHTML("<div/>");
@@ -69,13 +78,21 @@ public class MessageDetailView extends ScrollContentListView {
         html.add(new HTML(sb.toSafeHtml()), targetId);
 
     }
-    
-    public void setConversation(boolean conversation) {
-        isConversation = conversation;
+
+    public void setParent(Message parent) {
+        this.parent = parent;
     }
 
-    public boolean isConversation() {
-        return isConversation;
+    public Message getParent() {
+        return parent;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    private void setMessage(Message message) {
+        this.message = message;
     }
 }
 

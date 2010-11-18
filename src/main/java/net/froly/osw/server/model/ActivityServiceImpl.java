@@ -134,6 +134,38 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
     }
 
     @Override
+    public void commentMessage(String parentId, Message msg) {
+
+        final String message = msg.getMessage();
+        if(null==message)
+            throw new RuntimeException("Message payload cannot be null");
+        
+        final OswService osw = getOrCreateService();
+
+        Inbox inbox = osw.getInbox();
+        ActivityEntry parentActivity = inbox.getEntry(parentId);
+
+        ActivityObject object = activityFactory.object();
+		object.setType(ActivityObject.COMMENT);
+		object.addContent(atomFactory.content(message, "text/plain", null));
+
+		ActivityEntry commentEntry = activityFactory.entry();
+		commentEntry.setPublished(Calendar.getInstance().getTime());
+		commentEntry.addVerb(activityFactory.verb(ActivityVerb.POST));
+		commentEntry.addObject(object);
+		commentEntry.setAclRules(defaultRules);
+		commentEntry.setTitle(message);
+		commentEntry.setParentId(parentActivity.getId());
+		commentEntry.setParentJID(parentActivity.getActor().getUri());
+
+        try {
+            osw.postComment(commentEntry);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to comment Message", e);
+        }
+    }
+
+    @Override
     public void deleteMessage(String id) {
         OswService osw = getOrCreateService();
         try {

@@ -15,7 +15,7 @@ import net.froly.osw.client.widgets.XHtmlWidget;
 
 public class ComposeMessageView extends AbstractView {
 
-    private boolean isReply = false;
+    private Message parent = null;
 
     public ComposeMessageView() {
         super("Compose");    
@@ -56,20 +56,32 @@ public class ComposeMessageView extends AbstractView {
                 Message message  = new Message();
                 message.setMessage(payload);
 
-                ActivityService.App.getInstance().sendMessage(
-                        message, new AsyncCallback<Void>()
-                        {
-                            @Override
-                            public void onFailure(Throwable throwable) {
-                                GWT.log("Failed to send message", throwable);
-                            }
+                final AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        GWT.log("Failed to send message", throwable);
+                    }
 
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                doneOrCancel();    
-                            }
-                        }
-                );
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        doneOrCancel();
+                    }
+                };
+
+                if(getParent()!=null)
+                {
+                    // reply, conversation
+                    ActivityService.App.getInstance().commentMessage(
+                            getParent().getId(), message, callback
+                    );
+                }
+                else
+                {
+                    // status update, regular message
+                    ActivityService.App.getInstance().sendMessage(
+                            message, callback
+                    );
+                }
 
             }
         }
@@ -78,22 +90,33 @@ public class ComposeMessageView extends AbstractView {
     }
 
     private void doneOrCancel() {
-        OswClient.getViewManagement().showView(getCancelTarget(), View.FADE);
+
         // clear state
-        setIsReply(false);
+        setParent(null);
+        resetMsgText(viewId);
+
+        OswClient.getViewManagement().showView(getCancelTarget(), View.FADE);        
     }
 
-    public void setIsReply(boolean isReply) {
-        this.isReply = isReply;
+    public void setParent(Message parent) {
+        this.parent = parent;
     }
 
     private String getCancelTarget()
     {
-        String target = isReply ? Tokens.MESSSAGE_COMPOSE : Tokens.MESSSAGES;
+        String target = getParent() !=null ? Tokens.MESSAGE_CONVERSATION : Tokens.MESSSAGES;
         return target;
     }
 
-    public static native String getMsgText(String viewId) /*-{        
+    public Message getParent() {
+        return parent;
+    }
+
+    public static native String getMsgText(String viewId) /*-{
         return $wnd.document.forms["form-"+viewId].elements[0].value;
+    }-*/;
+
+    public static native String resetMsgText(String viewId) /*-{
+        return $wnd.document.forms["form-"+viewId].elements[0].value = "";
     }-*/;
 }

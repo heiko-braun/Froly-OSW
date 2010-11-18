@@ -1,5 +1,7 @@
 package net.froly.osw.client;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.RootPanel;
 import net.froly.osw.client.view.View;
 
@@ -11,7 +13,7 @@ import java.util.Map;
  */
 public class ViewManagement {
     private static Map<String, View> aliases = new HashMap<String, View>();
-    
+
     public void addView(String alias, View view)
     {
         RootPanel.get().add(view.asWidget());
@@ -20,7 +22,7 @@ public class ViewManagement {
 
     public View getView(String alias)
     {
-        return aliases.get(alias);   
+        return aliases.get(alias);
     }
 
     public void showView(String alias)
@@ -30,10 +32,16 @@ public class ViewManagement {
             view.reveal(View.SLIDELEFT);
     }
 
-    public void showView(String alias, String anim)
+    public void showView(final String alias, final String anim)
     {
-        View view = aliases.get(alias);
-        if(view!=null)
-            view.reveal(anim);
+        DeferredCommand.addCommand(new Command()
+        {
+            @Override
+            public void execute() {
+                View view = aliases.get(alias);
+                if(view!=null)
+                    view.reveal(anim);
+            }
+        });
     }
 }
