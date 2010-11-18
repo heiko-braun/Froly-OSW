@@ -2,14 +2,11 @@ package net.froly.osw.client.view;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
-import net.froly.osw.client.widgets.AbstractPanel;
-import net.froly.osw.client.widgets.ContentListPanel;
-import net.froly.osw.client.widgets.ListPanel;
+import net.froly.osw.client.widgets.ContentListView;
 
-public class ContactsView extends ContentListPanel {
+public class ContactsView extends ContentListView {
 
     public ContactsView() {
         super("Contacts");        

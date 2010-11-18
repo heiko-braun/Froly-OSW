@@ -7,14 +7,16 @@ import com.google.gwt.user.client.ui.Widget;
 import net.froly.osw.client.view.View;
 
 /**
- * Base panel abstraction. 
+ * Base view abstraction.
+ * Provides core view functionality (builder callbacks) and
+ * maintains the view id. 
  */
-public abstract class AbstractPanel extends View {
+public abstract class AbstractView extends View {
 
     protected final HTMLPanel html;
     protected final String viewId;
 
-    public AbstractPanel(String title) {
+    public AbstractView(String title) {
         
         viewId = HTMLPanel.createUniqueId();
 

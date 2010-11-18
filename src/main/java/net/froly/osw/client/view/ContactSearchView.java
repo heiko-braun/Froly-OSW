@@ -2,10 +2,10 @@ package net.froly.osw.client.view;
 
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import net.froly.osw.client.widgets.AbstractPanel;
+import net.froly.osw.client.widgets.AbstractView;
 
 
-public class ContactSearchView extends AbstractPanel {
+public class ContactSearchView extends AbstractView {
     public ContactSearchView() {
         super("New Contact");
     }

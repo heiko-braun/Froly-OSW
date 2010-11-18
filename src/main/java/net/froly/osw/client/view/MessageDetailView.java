@@ -9,10 +9,10 @@ import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
 import net.froly.osw.client.ViewManagement;
 import net.froly.osw.client.model.Message;
-import net.froly.osw.client.widgets.ScrollContentListPanel;
+import net.froly.osw.client.widgets.ScrollContentListView;
 
 
-public class MessageDetailView extends ScrollContentListPanel {
+public class MessageDetailView extends ScrollContentListView {
 
     private boolean isConversation = false;
 

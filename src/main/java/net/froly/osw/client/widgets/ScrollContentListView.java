@@ -6,11 +6,11 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 /**
  * Scrollable content list panel with a bottom toolbar
  */
-public class ScrollContentListPanel extends ContentListPanel {
+public class ScrollContentListView extends ContentListView {
 
     private int numBottomElements = 0;
     
-    public ScrollContentListPanel(String title) {
+    public ScrollContentListView(String title) {
         super(title);
     }
 

@@ -6,9 +6,9 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
-import net.froly.osw.client.widgets.ListPanel;
+import net.froly.osw.client.widgets.ListView;
 
-public class HomeView extends ListPanel {
+public class HomeView extends ListView {
 
     public HomeView() {
         super("Froly OSW");

@@ -12,14 +12,14 @@ import net.froly.osw.client.ViewManagement;
 import net.froly.osw.client.model.ActivityService;
 import net.froly.osw.client.model.ActivityServiceAsync;
 import net.froly.osw.client.model.Message;
-import net.froly.osw.client.widgets.ScrollContentListPanel;
+import net.froly.osw.client.widgets.ScrollContentListView;
 
 import java.util.List;
 
 /**
  * message panel
  */
-public class MessageListView extends ScrollContentListPanel {
+public class MessageListView extends ScrollContentListView {
 
 
     private ActivityServiceAsync service = ActivityService.App.getInstance();

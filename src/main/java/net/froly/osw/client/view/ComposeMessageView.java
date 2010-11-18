@@ -10,10 +10,10 @@ import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
 import net.froly.osw.client.model.ActivityService;
 import net.froly.osw.client.model.Message;
-import net.froly.osw.client.widgets.AbstractPanel;
+import net.froly.osw.client.widgets.AbstractView;
 import net.froly.osw.client.widgets.XHtmlWidget;
 
-public class ComposeMessageView extends AbstractPanel {
+public class ComposeMessageView extends AbstractView {
 
     private boolean isReply = false;
 

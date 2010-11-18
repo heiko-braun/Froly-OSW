@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * A custom XHTML widget that supports {@link com.google.gwt.event.dom.client.ClickHandler}'s
  * 
- * @see net.froly.osw.client.widgets.ListPanel
+ * @see ListView
  */
 public class XHtmlWidget extends Widget implements HasClickHandlers {
 

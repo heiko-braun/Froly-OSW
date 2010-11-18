@@ -4,10 +4,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import net.froly.osw.client.widgets.AbstractPanel;
+import net.froly.osw.client.widgets.AbstractView;
 import net.froly.osw.client.widgets.XHtmlWidget;
 
-public class SettingsView extends AbstractPanel {
+public class SettingsView extends AbstractView {
 
     public SettingsView() {
 

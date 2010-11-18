@@ -12,11 +12,11 @@ import net.froly.osw.client.Tokens;
 import net.froly.osw.client.ViewManagement;
 import net.froly.osw.client.model.ActivityService;
 import net.froly.osw.client.model.Message;
-import net.froly.osw.client.widgets.ScrollContentListPanel;
+import net.froly.osw.client.widgets.ScrollContentListView;
 
 import java.util.List;
 
-public class ConversationView extends ScrollContentListPanel {
+public class ConversationView extends ScrollContentListView {
 
     private Message message = null;
 
