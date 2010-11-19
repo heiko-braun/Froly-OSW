@@ -102,6 +102,10 @@ public class OswClient implements EntryPoint {
         $wnd.jQT.goTo("#"+page, anim);
     }-*/;
 
+    public static native void goBack() /*-{
+        $wnd.jQT.goBack();
+    }-*/;
+
     public static String getCurrentUserJID() {
         return "heiko@social.openliven.com";
     }

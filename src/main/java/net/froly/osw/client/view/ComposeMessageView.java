@@ -39,7 +39,7 @@ public class ComposeMessageView extends AbstractView {
         {
             @Override
             public void onClick(ClickEvent clickEvent) {
-                doneOrCancel();
+                reset();
             }
         });
 
@@ -64,7 +64,9 @@ public class ComposeMessageView extends AbstractView {
 
                     @Override
                     public void onSuccess(Void aVoid) {
-                        doneOrCancel();
+                        reset();
+                        // navigate back                        
+                        OswClient.goBack();
                     }
                 };
 
@@ -89,7 +91,7 @@ public class ComposeMessageView extends AbstractView {
         html.add(button, "submit-"+viewId);
     }
 
-    private void doneOrCancel() {
+    private void reset() {
         
         // clear state
         setParent(null);
