@@ -2,6 +2,7 @@ package net.froly.osw.client.view;
 
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import net.froly.osw.client.OswClient;
 import net.froly.osw.client.widgets.AbstractView;
 
 
@@ -17,6 +18,6 @@ public class ContactSearchView extends AbstractView {
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
-        addCancelButton("Cancel", new RevealHandler("contacts", View.FADE));
+        addCancelButton("Cancel", OswClient.NOOP_HANDLER);
     }
 }

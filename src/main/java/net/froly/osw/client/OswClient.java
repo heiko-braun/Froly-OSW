@@ -1,6 +1,8 @@
 package net.froly.osw.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import net.froly.osw.client.view.*;
@@ -14,6 +16,13 @@ public class OswClient implements EntryPoint {
     private static ViewManagement viewManagement = new ViewManagement();
     private static XHtmlWidget progress;
     private static PopupPanel loading;
+
+    public static final ClickHandler NOOP_HANDLER = new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent clickEvent) {
+            //NOOP
+        }
+    };
 
     public void onModuleLoad() {
 
@@ -85,8 +94,7 @@ public class OswClient implements EntryPoint {
     public static native void initJQTouch() /*-{
         $wnd.jQT = $wnd.$.jQTouch({            
             statusBar: 'black',
-            useFastTouch: true,
-            startupScreen: "home"
+            useFastTouch: true            
         });        
     }-*/;
 

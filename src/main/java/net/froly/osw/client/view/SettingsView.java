@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import net.froly.osw.client.OswClient;
 import net.froly.osw.client.widgets.AbstractView;
 import net.froly.osw.client.widgets.XHtmlWidget;
 
@@ -32,7 +33,7 @@ public class SettingsView extends AbstractView {
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
-        addCancelButton("Cancel", new RevealHandler("home", View.FADE));
+        addCancelButton("Cancel", OswClient.NOOP_HANDLER);
 
         XHtmlWidget button = new XHtmlWidget("<a href='#' class='whitebutton' style='color:black'>Save</a>");
         button.addClickHandler(new ClickHandler()

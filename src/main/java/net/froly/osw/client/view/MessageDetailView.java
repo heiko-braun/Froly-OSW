@@ -26,10 +26,7 @@ public class MessageDetailView extends ScrollContentListView {
         addBackButton("Back", new ClickHandler()
         {
             @Override
-            public void onClick(ClickEvent clickEvent) {
-                String target = getParent() !=null ? Tokens.MESSAGE_CONVERSATION : Tokens.MESSSAGES;
-                OswClient.getViewManagement().showView(target, View.SLIDERIGHT);
-
+            public void onClick(ClickEvent clickEvent) {                
                 // clear state
                 setParent(null);
                 setMessage(null);

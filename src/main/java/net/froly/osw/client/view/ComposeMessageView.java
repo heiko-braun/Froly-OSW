@@ -90,12 +90,11 @@ public class ComposeMessageView extends AbstractView {
     }
 
     private void doneOrCancel() {
-
+        
         // clear state
         setParent(null);
         resetMsgText(viewId);
 
-        OswClient.getViewManagement().showView(getCancelTarget(), View.FADE);        
     }
 
     public void setParent(Message parent) {

@@ -81,7 +81,7 @@ public class ContactsView extends ScrollContentListView {
             }
         });
 
-        addBackButton("Home", new RevealHandler("home", View.SLIDERIGHT));
+        addBackButton("Home", OswClient.NOOP_HANDLER);
 
         // add search
 

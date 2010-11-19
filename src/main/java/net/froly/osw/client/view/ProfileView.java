@@ -2,6 +2,7 @@ package net.froly.osw.client.view;
 
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
 import net.froly.osw.client.model.Contact;
 import net.froly.osw.client.widgets.AbstractView;
@@ -36,7 +37,7 @@ public class ProfileView extends AbstractView {
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
-        addBackButton("Contacts", new RevealHandler(Tokens.CONTACTS, View.SLIDERIGHT));
+        addBackButton("Contacts", OswClient.NOOP_HANDLER);
     }
 
     private void clearProfile()

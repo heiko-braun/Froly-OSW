@@ -32,8 +32,9 @@ public class MessageListView extends ScrollContentListView {
     protected void widgetCallback(HTMLPanel widget) {
 
         super.widgetCallback(widget);
-        
-        addBackButton("Home", new RevealHandler(Tokens.HOME, View.SLIDERIGHT));        
+                
+        addBackButton("Home", OswClient.NOOP_HANDLER);
+
         addBottom("Refresh", new ClickHandler()
         {
             public void onClick(ClickEvent event) {

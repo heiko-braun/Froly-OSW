@@ -29,7 +29,7 @@ public class ConversationView extends ScrollContentListView {
 
         super.widgetCallback(widget);
 
-        addBackButton("Messages", new RevealHandler(Tokens.MESSSAGES, View.SLIDERIGHT));
+        addBackButton("Messages", OswClient.NOOP_HANDLER);
 
         // bottom toolbar
         super.addBottom("Reply", new ClickHandler()
