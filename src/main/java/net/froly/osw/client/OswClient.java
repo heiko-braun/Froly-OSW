@@ -1,10 +1,12 @@
 package net.froly.osw.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import net.froly.osw.client.bundle.Resources;
 import net.froly.osw.client.view.*;
 import net.froly.osw.client.widgets.XHtmlWidget;
 
@@ -16,6 +18,8 @@ public class OswClient implements EntryPoint {
     private static ViewManagement viewManagement = new ViewManagement();
     private static XHtmlWidget progress;
     private static PopupPanel loading;
+
+    public static Resources IMAGES = GWT.create(Resources.class);
 
     public static final ClickHandler NOOP_HANDLER = new ClickHandler() {
         @Override
@@ -106,6 +110,13 @@ public class OswClient implements EntryPoint {
         $wnd.jQT.goBack();
     }-*/;
 
+    public static native void alert(String msg) /*-{
+        alert(msg);
+    }-*/;
+
+    public static native void confirm(String msg) /*-{
+        confirm(msg);
+    }-*/;
     public static String getCurrentUserJID() {
         return "heiko@social.openliven.com";
     }

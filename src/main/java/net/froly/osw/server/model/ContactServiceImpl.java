@@ -2,8 +2,13 @@ package net.froly.osw.server.model;
 
 import net.froly.osw.client.model.Contact;
 import net.froly.osw.client.model.ContactService;
+import net.froly.osw.client.model.ContactProfile;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.onesocialweb.client.exception.AuthenticationRequired;
+import org.onesocialweb.client.exception.ConnectionRequired;
+import org.onesocialweb.client.exception.RequestException;
+import org.onesocialweb.model.vcard4.Profile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,5 +54,25 @@ public class ContactServiceImpl extends OswServiceServlet implements ContactServ
         }
 
         return results;
+    }
+
+    @Override
+    public ContactProfile getProfile(String jid) {
+
+        OswServiceExtension osw = (OswServiceExtension)getOrCreateService();
+
+        try {
+            Profile profile = osw.getProfile(jid);
+            ContactProfile result = new ContactProfile();
+            result.setJid(jid);
+            result.setFullName(profile.getFullName());
+            result.setPhotoUri(profile.getPhotoUri());
+            result.setEmail(profile.getEmail());
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to get profile", e);
+        }
+
     }
 }

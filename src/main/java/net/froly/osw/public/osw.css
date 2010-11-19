@@ -112,3 +112,26 @@
 			color-stop(0.5, #252525)
 		);
 	}
+
+
+/* list style customizations */
+
+#jqt ul li.plain {
+    color: #fff!important;
+    vertical-align:middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#jqt .list-prefix {
+    width:65px;
+    float: left;
+    color:#999;
+    font-size:small;
+    text-align:right;
+    vertical-align:middle;
+    padding-right:10px;
+    padding-top:4px;
+    padding-bottom:4px;
+}

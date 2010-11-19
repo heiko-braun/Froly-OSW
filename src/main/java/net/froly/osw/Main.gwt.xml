@@ -8,7 +8,7 @@
     <stylesheet src="jqtouch/jqtouch.css" />
     <stylesheet src="themes/jqt/theme.css?v=2"/>
     <stylesheet src="jqtext/scrolling.css"/>
-    <stylesheet src="osw.css?v=6"/>
+    <stylesheet src="osw.css?v=20"/>
 
     <script src="jqtouch/jquery-1.4.2.min.js"/>
     <script src="jqtouch/jqtouch.js"/>

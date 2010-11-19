@@ -8,4 +8,6 @@ import java.util.List;
 public interface ContactServiceAsync {
     
     void getSubscriptions(String jid, AsyncCallback<List<Contact>> async);
+
+    void getProfile(String jid, AsyncCallback<ContactProfile> async);
 }
