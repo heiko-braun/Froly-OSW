@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
 import net.froly.osw.client.widgets.AbstractView;
@@ -51,6 +52,10 @@ public class SettingsView extends AbstractView {
         sb.appendHtmlConstant("</ul>");
         sb.appendHtmlConstant("</form>");
         sb.appendHtmlConstant("<div style='padding:10px' id='submit-"+viewId+"'/>");
+
+        // debug settings
+        sb.appendHtmlConstant("<h2>Debug</h2>");
+        sb.appendHtmlConstant("<ul class='edit rounded' id='debug-"+viewId+"'/>");        
         
     }
 
@@ -88,11 +93,30 @@ public class SettingsView extends AbstractView {
             }
         }
         );
+
         html.add(button, "submit-"+viewId);
+
+
+        // debug
+        XHtmlWidget clearStorage = new XHtmlWidget("<li><a href='#'>Reset</a></li>");
+        clearStorage.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                Storage storage = OswClient.getStorage();
+                storage.clear();
+                reload();
+            }
+        });
+        html.add(clearStorage, "debug-"+viewId);
     }
 
     public static native String getUName(String viewId) /*-{
         return $wnd.document.forms["form-"+viewId].elements[0].value;
+    }-*/;
+
+    public static native String reload() /*-{
+        return $wnd.location.reload();
     }-*/;
 
      public static native String getPWord(String viewId) /*-{

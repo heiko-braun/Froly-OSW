@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import net.froly.osw.client.bundle.Resources;
 import net.froly.osw.client.model.ContactService;
 import net.froly.osw.client.model.ContactServiceAsync;
+import net.froly.osw.client.model.MessageModel;
 import net.froly.osw.client.view.*;
 import net.froly.osw.client.widgets.XHtmlWidget;
 
@@ -27,7 +28,9 @@ public class OswClient implements EntryPoint {
     public static Resources IMAGES = GWT.create(Resources.class);
 
     private HomeView homeView;
-
+    
+    private static MessageModel messageModel = new MessageModel();
+    
     public static final ClickHandler NOOP_HANDLER = new ClickHandler() {
         @Override
         public void onClick(ClickEvent clickEvent) {
@@ -49,7 +52,7 @@ public class OswClient implements EntryPoint {
 
         // ---------------------------------
         // Messages
- 
+
         viewManagement.addView(Tokens.MESSSAGES, new MessageListView());
         viewManagement.addView(Tokens.MESSSAGE_DETAIL, new MessageDetailView());
         viewManagement.addView(Tokens.MESSSAGE_COMPOSE, new ComposeMessageView());
@@ -64,7 +67,7 @@ public class OswClient implements EntryPoint {
 
         // ---------------------------------
         // Contacts
-        
+
         viewManagement.addView(Tokens.CONTACTS, new ContactsView());
         viewManagement.addView(Tokens.PROFILE, new ProfileView());
 
@@ -82,7 +85,7 @@ public class OswClient implements EntryPoint {
         //blank.setVisible(false);
 
         initJQTouch();
-        
+
         // default view
         viewManagement.showView(Tokens.HOME, View.FADE);
 
@@ -98,12 +101,12 @@ public class OswClient implements EntryPoint {
 
     }
 
-    public static void login() {                
+    public static void login() {
 
         final HomeView home = (HomeView)OswClient.getViewManagement().getView(Tokens.HOME);
         home.updateStatus("Trying to login ...");
 
-        final Storage storage = Storage.getLocalStorage();
+        final Storage storage = getStorage();
         final String user = storage.getItem(SettingsView.OSW_USER);
         final String pass = storage.getItem(SettingsView.OSW_PASS);
         final String host = storage.getItem(SettingsView.OSW_HOST);
@@ -127,7 +130,7 @@ public class OswClient implements EntryPoint {
                 }
                 else
                 {
-                    home.updateStatus("Logged in as " + getCurrentUserJID());                    
+                    home.updateStatus("Logged in as " + getCurrentUserJID());
                 }
             }
         });
@@ -143,18 +146,37 @@ public class OswClient implements EntryPoint {
 
     public static ViewManagement getViewManagement()
     {
-        return viewManagement;   
+        return viewManagement;
     }
 
     public static Storage getStorage()
     {
 
         if (!Storage.isSupported()) {
-            throw new RuntimeException("Storage not supported");            
+            throw new RuntimeException("Storage not supported");
         }
 
         Storage local = Storage.getLocalStorage();
         return local;
+    }
+
+    public static String getCurrentUserJID() {
+        final Storage storage = getStorage();
+
+        if(null==storage.getItem(SettingsView.OSW_USER))
+        {
+            return null;
+        }
+        else
+        {
+            final String user = storage.getItem(SettingsView.OSW_USER);
+            final String host = storage.getItem(SettingsView.OSW_HOST);
+            return user+"@"+host;
+        }
+    }
+
+    public static MessageModel getMessageModel() {
+        return messageModel;
     }
 
     /*
@@ -163,7 +185,7 @@ public class OswClient implements EntryPoint {
         -----------------------
     */
 
-    
+
     public static native void initJQTouch() /*-{
         $wnd.jQT = $wnd.$.jQTouch({            
             statusBar: 'black',
@@ -186,20 +208,5 @@ public class OswClient implements EntryPoint {
     public static native void confirm(String msg) /*-{
         confirm(msg);
     }-*/;
-    
-    public static String getCurrentUserJID() {
-        final Storage storage = Storage.getLocalStorage();
 
-        if(null==storage.getItem(SettingsView.OSW_USER))
-        {
-            return null;
-        }
-        else
-        {
-            final String user = storage.getItem(SettingsView.OSW_USER);
-            final String host = storage.getItem(SettingsView.OSW_HOST);
-            return user+"@"+host;
-        }
-    }
-    
 }

@@ -1,17 +1,16 @@
 package net.froly.osw.client.view;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
 import net.froly.osw.client.ViewManagement;
-import net.froly.osw.client.model.ActivityService;
-import net.froly.osw.client.model.Message;
+import net.froly.osw.client.model.*;
 import net.froly.osw.client.widgets.ScrollContentListView;
 
 import java.util.List;
@@ -19,9 +18,30 @@ import java.util.List;
 public class ConversationView extends ScrollContentListView {
 
     private Message parent = null;
+    private List<Message> replies = null;
 
     public ConversationView() {
         super("Conversation");
+
+        OswClient.getMessageModel().addMessageReadHandler(
+                new MessageReadEventHandler()
+                {
+                    @Override
+                    public void onMessageRead(MessageReadEvent event)
+                    {
+                        if(getParent()!=null && getReplies()!=null)
+                        {
+
+                            render(getParent(), getReplies());
+                        }
+                        
+                    }
+                }
+        );
+    }
+
+    public List<Message> getReplies() {
+        return replies;
     }
 
     @Override
@@ -46,48 +66,62 @@ public class ConversationView extends ScrollContentListView {
 
     }
 
-    public void display(Message parent)
+    public void display(final Message parent)
     {
         this.parent = parent;
 
-        clearContent();
-
-        addContent(renderMessage(getParent()), new MessageClickHandler(parent));
-
         ActivityService.App.getInstance().getReplies(
-            getParent().getId(),new AsyncCallback<List<Message>>()
+                getParent().getId(),new AsyncCallback<List<Message>>()
                 {
                     @Override
                     public void onFailure(Throwable e) {
-                        GWT.log("Failed to get replies", e);
+                        Window.alert("Failed to get replies");
                     }
 
                     @Override
                     public void onSuccess(List<Message> result) {
-                        for(final Message message : result)
-                        {
-                            addContent(renderMessage(message), new MessageClickHandler(message));
-                        }                        
+                        replies = result;
+                        render(parent, result);
                     }
                 }
         );
+    }
+
+    private void render(Message parent, List<Message> result) {
+
+        // clear screen
+        clearContent();
+
+        // render parent
+        addContent(renderMessage(getParent()), new MessageClickHandler(parent));
+
+        // render replies
+        for(final Message message : result)
+        {
+            addContent(renderMessage(message), new MessageClickHandler(message));
+        }
     }
 
     private static SafeHtml renderMessage(Message message)
     {
         SafeHtmlBuilder sb = new SafeHtmlBuilder();
 
+        boolean isRead = ReadFlags.isRead(message);
+
         sb.appendHtmlConstant("<div class='message-content' style='padding-right:50px;'>");
         sb.appendHtmlConstant("<b style='color:#808080;'>"+message.getFrom()+"</b><br/>");
+        if(isRead) sb.appendHtmlConstant("<div style='color:#808080;'>");
         sb.appendEscaped(message.getMessage().replaceAll("\n", ""));
+        if(isRead) sb.appendHtmlConstant("</div>");
         sb.appendHtmlConstant("</div>");
 
         return sb.toSafeHtml();
     }
-        
+
     private Message getParent() {
         return parent;
     }
+
 
     class MessageClickHandler implements ClickHandler
     {

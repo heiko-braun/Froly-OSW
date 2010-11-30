@@ -28,7 +28,7 @@ public class HomeView extends ListView {
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
-        HTML welcome = new HTML("<center>A truely open, decentralized Social Network.</center>");
+        HTML welcome = new HTML("<center>A truly open, decentralized Social Network.</center>");
         welcome.setStyleName("content");
 
         addPre(welcome);

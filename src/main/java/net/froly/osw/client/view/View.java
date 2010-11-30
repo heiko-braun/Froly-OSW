@@ -14,17 +14,17 @@ public abstract class View {
     public abstract Widget asWidget();
 
     public void reveal(String anim)
-    {
+    {        
         OswClient.goTo(getViewId(), anim);
     }
 
     public void reveal()
     {
-        OswClient.goTo(getViewId(), FADE);
+        reveal(FADE);
     }
 
     public String getViewId()
     {
       return asWidget().getElement().getAttribute("id"); 
-    }   
+    }
 }

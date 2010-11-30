@@ -9,6 +9,8 @@ import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
 import net.froly.osw.client.ViewManagement;
 import net.froly.osw.client.model.Message;
+import net.froly.osw.client.model.MessageReadEvent;
+import net.froly.osw.client.model.ReadFlags;
 import net.froly.osw.client.widgets.ScrollContentListView;
 
 
@@ -20,13 +22,19 @@ public class MessageDetailView extends ScrollContentListView {
     public MessageDetailView() {
         super("Message Detail");    
     }
-        
+
+
     @Override
     protected void widgetCallback(HTMLPanel widget) {
         addBackButton("Back", new ClickHandler()
         {
             @Override
-            public void onClick(ClickEvent clickEvent) {                
+            public void onClick(ClickEvent clickEvent) {
+
+                OswClient.getMessageModel().fireEvent(
+                        new MessageReadEvent(getMessage())
+                );
+                
                 // clear state
                 setParent(null);
                 setMessage(null);
@@ -60,7 +68,7 @@ public class MessageDetailView extends ScrollContentListView {
 
         // clear
         final String targetId = "scroll-" + viewId;
-        html.getElementById(targetId).setInnerHTML("<div/>");
+        html.getElementById(targetId).setInnerHTML("<div/>");  // necessary?
 
         SafeHtmlBuilder sb = new SafeHtmlBuilder();
         sb.appendHtmlConstant("<div class='message' style='padding:12px; color:#fff;display: -webkit-box;'>");
@@ -85,9 +93,11 @@ public class MessageDetailView extends ScrollContentListView {
             sb.appendHtmlConstant("</ul>");
         } */
 
-        html.add(new HTML(sb.toSafeHtml()), targetId);      
-    }
+        html.add(new HTML(sb.toSafeHtml()), targetId);
 
+        ReadFlags.markRead(message);
+    }
+  
     public void setParent(Message parent) {
         this.parent = parent;
     }
