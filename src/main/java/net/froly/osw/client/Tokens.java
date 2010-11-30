@@ -11,4 +11,6 @@ public class Tokens {
     public static final String MESSAGE_CONVERSATION = "message-conversation";
     public static final String PROFILE = "profile";
 
+    public static final String ABOUT = "about";
+
 }

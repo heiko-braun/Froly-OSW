@@ -23,11 +23,12 @@ public class HomeView extends ListView {
         super.htmlCallback(sb);
         
         sb.appendHtmlConstant("<div id='status-"+viewId+"'/>");
+        sb.appendHtmlConstant("<div class='content'>Add this page to your home screen to view it in full screen mode.</div>");
     }
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
-        HTML welcome = new HTML("<center>One true, open, decentralized social network.</center>");
+        HTML welcome = new HTML("<center>A truely open, decentralized Social Network.</center>");
         welcome.setStyleName("content");
 
         addPre(welcome);
@@ -42,6 +43,7 @@ public class HomeView extends ListView {
         addItem("Contacts", new RevealHandler(Tokens.CONTACTS));
         addItem("Settings", new RevealHandler(Tokens.SETTINGS));
 
+        addButton("About", new RevealHandler(Tokens.ABOUT, View.SLIDEUP));
 
         // ---------------
 

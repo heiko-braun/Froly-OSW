@@ -70,6 +70,10 @@ public class OswClient implements EntryPoint {
 
         // ---------------------------------
 
+        viewManagement.addView(Tokens.ABOUT, new AboutView());
+
+        // ---------------------------------
+
         // progress
 
         //loading = new PopupPanel(true);
