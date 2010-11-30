@@ -71,8 +71,31 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
         message.setDateFrom(published);
         message.setNumReplies(activity.getRepliesLink()!=null? activity.getRepliesLink().getCount() : 0);
 
+        // inline Urls
+        /*List<String> urls = Util.extractUrls(status);
+        if(!urls.isEmpty())
+        {
+            // replace inline urls with footnotes
+            StringBuffer sb = new StringBuffer();
+            int i=0;
+            int cursor=0;
+            for(String url : urls)
+            {
+                i++;
+                int index = status.indexOf(url);
+                sb.append(status.substring(cursor, index));
+                sb.append(" [").append(i).append("] "); // replacement
+                cursor = index+url.length(); // advance cursor
+            }
+
+            message.setMessage(sb.toString());
+            message.getInlineUrls().addAll(urls);
+        }  */
+
+
         // recipients
         Iterator<AtomReplyTo> recipients = activity.getRecipients().iterator();
+
         while (recipients.hasNext()) {
             final AtomReplyTo recipient = recipients.next();
             final String recipientJID = extractRecipientJID(recipient.getHref());

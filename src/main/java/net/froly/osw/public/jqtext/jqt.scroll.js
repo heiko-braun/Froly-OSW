@@ -611,8 +611,6 @@
                         $(this).horizontallyScroll(h.attributesToOptions($(this), "horizontal", h.attributes));
                     });
             });
-
-            console.log("scroll extension created (jqt.scroll.js)");
             
             return {};
         });
@@ -729,7 +727,6 @@
      *    @return null
      */
     function inertiaScroll (element, options) {
-        console.log("inertiaScroll setup on " + element.id);
         var $element = $(element).data("jqt-scroll-options", options)
                             .css("webkitTransform", format(options.tranform, options.defaultOffset)),
             transform = $element.css("webkitTransform"),
@@ -739,7 +736,7 @@
             //these events get attatch
             //if (!name.match(/^touchend|touchcancel|touchmove/)) {
                 element.addEventListener(name, func, false);
-                console.log("add event listener to " + element.id);
+                console.log("add scroll listener: "+element.id);
             //}
         });
 
@@ -836,7 +833,7 @@
      *    @param Event event
      *    @return Boolean
      */
-    function touchMove (event) {
+    function touchMove (event) {        
         var $this = $(this),
             options = $this.data("jqt-scroll-options"),
             data = $this.data("jqt-scroll-current-event"),

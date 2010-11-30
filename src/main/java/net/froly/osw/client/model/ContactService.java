@@ -14,6 +14,8 @@ public interface ContactService extends RemoteService {
 
     ContactProfile getProfile(String jid);
 
+    boolean login(String user, String password, String host);
+
     /**
      * Utility/Convenience class.
      * Use ContactService.App.getInstance() to access static instance of ContactServiceAsync

@@ -5,11 +5,13 @@ import net.froly.osw.client.model.ContactService;
 import net.froly.osw.client.model.ContactProfile;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.onesocialweb.client.OswService;
 import org.onesocialweb.client.exception.AuthenticationRequired;
 import org.onesocialweb.client.exception.ConnectionRequired;
 import org.onesocialweb.client.exception.RequestException;
 import org.onesocialweb.model.vcard4.Profile;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,6 +20,27 @@ import java.util.logging.Logger;
 public class ContactServiceImpl extends OswServiceServlet implements ContactService {
 
     private static Logger log = Logger.getLogger(ContactServiceImpl.class.getName());
+
+    @Override
+    public boolean login(String user, String password, String host) {
+
+        HttpSession session = getThreadLocalRequest().getSession();
+        session.setAttribute("user", user);
+        session.setAttribute("pass", password);
+        session.setAttribute("host", host);
+
+        OswService service = null;
+
+        try {
+            session.removeAttribute("osw"); // clear it first
+            service = getOrCreateService();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return service!=null;
+    }
 
     @Override
     public List<Contact> getSubscriptions(String jid) {

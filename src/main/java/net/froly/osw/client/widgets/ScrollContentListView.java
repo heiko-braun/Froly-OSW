@@ -1,5 +1,6 @@
 package net.froly.osw.client.widgets;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 
@@ -7,8 +8,6 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
  * Scrollable content list panel with a bottom toolbar
  */
 public class ScrollContentListView extends ContentListView {
-
-    private int numBottomElements = 0;
     
     public ScrollContentListView(String title) {
         super(title);
@@ -41,6 +40,5 @@ public class ScrollContentListView extends ContentListView {
         btn.addClickHandler(handler);
         html.add(btn, "tabbar-"+viewId);
     }
-
-
+   
 }

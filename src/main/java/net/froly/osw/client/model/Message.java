@@ -13,6 +13,7 @@ public class Message implements Serializable {
 
     private int numReplies;
     private Set<String> recipients = new HashSet<String>();
+    private List<String> inlineUrls = new ArrayList<String>();
 
     public Message(String id, String from, String message) {
         this.id = id;
@@ -71,5 +72,9 @@ public class Message implements Serializable {
     public void setNumReplies(int numReplies) {
         this.numReplies = numReplies;
     }
+
+    public List<String> getInlineUrls() {
+        return inlineUrls;
+    }    
 }
 

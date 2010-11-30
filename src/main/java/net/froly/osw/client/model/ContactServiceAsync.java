@@ -10,4 +10,6 @@ public interface ContactServiceAsync {
     void getSubscriptions(String jid, AsyncCallback<List<Contact>> async);
 
     void getProfile(String jid, AsyncCallback<ContactProfile> async);
+
+    void login(String user, String password, String host, AsyncCallback<Boolean> async);
 }

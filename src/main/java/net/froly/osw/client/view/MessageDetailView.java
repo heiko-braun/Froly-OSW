@@ -20,7 +20,7 @@ public class MessageDetailView extends ScrollContentListView {
     public MessageDetailView() {
         super("Message Detail");    
     }
-
+        
     @Override
     protected void widgetCallback(HTMLPanel widget) {
         addBackButton("Back", new ClickHandler()
@@ -65,15 +65,27 @@ public class MessageDetailView extends ScrollContentListView {
         SafeHtmlBuilder sb = new SafeHtmlBuilder();
         sb.appendHtmlConstant("<div class='message' style='padding:12px; color:#fff;display: -webkit-box;'>");
         sb.appendHtmlConstant("<b style='font-size:small;color:#808080;'>From: "+message.getFrom()+"</b><br/>");
-        sb.appendHtmlConstant("<b style='font-size:small;color:#808080;'>To: "+message.getRecipients()+"</b><br/>");
-        sb.appendEscaped(message.getMessage().replaceAll("\n", ""));
+        sb.appendHtmlConstant("<b style='font-size:small;color:#808080;'>To: "+message.getRecipients()+"</b><br/><br/>");
+        sb.appendEscaped(message.getMessage().replaceAll("\n", ""));        
         sb.appendHtmlConstant("</div>");
         
         //if(message.getNumReplies()>0)
         //    sb.appendHtmlConstant("<small class='counter'>"+message.getNumReplies()+"</small>");
 
-        html.add(new HTML(sb.toSafeHtml()), targetId);
 
+        /*if(!message.getInlineUrls().isEmpty())
+        {
+            sb.appendHtmlConstant("<ul style='font-size:small;'>");
+            int i=0;
+            for(String url : message.getInlineUrls())
+            {
+                i++;
+                sb.appendHtmlConstant("<li class='forward'>["+i+"]<a href='"+url+"' target='_blank'>").appendHtmlConstant(url).appendHtmlConstant("</a></li>");
+            }
+            sb.appendHtmlConstant("</ul>");
+        } */
+
+        html.add(new HTML(sb.toSafeHtml()), targetId);      
     }
 
     public void setParent(Message parent) {

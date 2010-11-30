@@ -18,8 +18,6 @@ public class OswServiceServlet extends RemoteServiceServlet {
     private static Logger log = Logger.getLogger(OswServiceServlet.class.getName());
 
     public static final int PORT = 5222;
-    private static final String USERNAME = "heiko";
-    private static final String PASSWORD = "12uy.Er4";
     
     protected OswService getOrCreateService()
     {
@@ -41,17 +39,21 @@ public class OswServiceServlet extends RemoteServiceServlet {
         
         if(!osw.isConnected()) {
             log.info("Not connected. Attempt login ...");
-            connectAndLogin(osw);
+            connectAndLogin(osw,
+                    (String)session.getAttribute("user"),
+                    (String)session.getAttribute("pass"),
+                    (String)session.getAttribute("host")
+            );
         }
 
         return osw;
     }
 
-    protected void connectAndLogin(OswService osw)
+    protected void connectAndLogin(OswService osw, String user, String pass, String host)
     {
         try {
-            osw.connect("social.openliven.com", PORT, null);
-            osw.login(USERNAME, PASSWORD, "console");
+            osw.connect(host, PORT, null);
+            osw.login(user, pass, "console");
         } catch (Exception e) {
             throw new RuntimeException("Failed to connect", e);
         }

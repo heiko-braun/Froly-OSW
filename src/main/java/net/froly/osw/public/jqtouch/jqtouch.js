@@ -567,6 +567,7 @@
 
             if ($el.isExternalLink()) {
                 $el.removeClass('active');
+                //window.open($el.attr('href'));
                 return true;
             }
 

@@ -67,7 +67,7 @@ public class ConversationView extends ScrollContentListView {
                         for(final Message message : result)
                         {
                             addContent(renderMessage(message), new MessageClickHandler(message));
-                        }
+                        }                        
                     }
                 }
         );
@@ -101,12 +101,13 @@ public class ConversationView extends ScrollContentListView {
         public void onClick(ClickEvent clickEvent) {
             // update view
             ViewManagement viewManagement = OswClient.getViewManagement();
-            MessageDetailView detail = (MessageDetailView)viewManagement.getView(Tokens.MESSSAGE_DETAIL);
-            detail.setParent(getParent());
-            detail.display(this.msg);
 
             // reveal it
             viewManagement.showView(Tokens.MESSSAGE_DETAIL);
+
+            MessageDetailView detail = (MessageDetailView)viewManagement.getView(Tokens.MESSSAGE_DETAIL);
+            detail.setParent(getParent());
+            detail.display(this.msg);
         }
     }
 }

@@ -78,22 +78,25 @@ public class MessageListView extends ScrollContentListView {
 
                                     if(message.getNumReplies()==0)
                                     {
+                                        // revel it
+                                        viewManagement.showView(Tokens.MESSSAGE_DETAIL);
+                                        
                                         // no replies, direct view
                                         MessageDetailView detail = (MessageDetailView)viewManagement.getView(Tokens.MESSSAGE_DETAIL);                                        
                                         detail.display(message);
 
-                                        // revel it
-                                        viewManagement.showView(Tokens.MESSSAGE_DETAIL);
                                     }
                                     else
                                     {
                                         // has replies, threaded conversation view
                                         ConversationView conversation = (ConversationView)
                                             viewManagement.getView(Tokens.MESSAGE_CONVERSATION);                                        
-                                        conversation.display(message);
 
-                                        // revel it
-                                        viewManagement.showView(Tokens.MESSAGE_CONVERSATION);    
+                                        // reveal it
+                                        viewManagement.showView(Tokens.MESSAGE_CONVERSATION);
+
+                                        // show message
+                                        conversation.display(message);
                                     }
 
                                 }

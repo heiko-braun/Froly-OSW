@@ -2,16 +2,27 @@ package net.froly.osw.client.view;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
 import net.froly.osw.client.widgets.ListView;
+import net.froly.osw.client.widgets.XHtmlWidget;
 
 public class HomeView extends ListView {
 
+    private XHtmlWidget status;
+
     public HomeView() {
-        super("Froly OSW");
+        super("OneSocialWeb");
+    }
+
+    @Override
+    protected void htmlCallback(SafeHtmlBuilder sb) {
+        super.htmlCallback(sb);
+        
+        sb.appendHtmlConstant("<div id='status-"+viewId+"'/>");
     }
 
     @Override
@@ -31,8 +42,16 @@ public class HomeView extends ListView {
         addItem("Contacts", new RevealHandler(Tokens.CONTACTS));
         addItem("Settings", new RevealHandler(Tokens.SETTINGS));
 
-        //addPost(new HTML("<div class='content' style='color:#808080'>We dream of a world where all social networks are connected and work together in a way similar to email. Our project aims to define a language to bridge these networks and make it easy for social networks to join a bigger social web. You're invited to help make this a reality.</div>"));
-        
+
+        // ---------------
+
+        status = new XHtmlWidget("<div class='info'/>");
+        html.add(status, "status-"+viewId);
+
     }
+
+    public void updateStatus(String msg) {
+        status.getElement().setInnerHTML(msg);
+    }   
 }
 
