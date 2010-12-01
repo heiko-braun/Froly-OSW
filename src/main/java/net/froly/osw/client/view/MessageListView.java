@@ -2,7 +2,9 @@ package net.froly.osw.client.view;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
@@ -30,7 +32,12 @@ public class MessageListView extends ScrollContentListView {
                     public void onMessageRead(MessageReadEvent event)
                     {
                         Message updated = event.getMessage();
-                        html.getElementById("msg-"+updated.getId()).addClassName("isRead");
+                        Element item = html.getElementById("msg-" + updated.getId());
+                        if(item!=null)
+                        {
+                            System.out.println("mark read (inbox): "+item.getId());
+                            item.addClassName("isRead");
+                        }
                     }
                 }
         );
@@ -76,18 +83,9 @@ public class MessageListView extends ScrollContentListView {
         
         for(final Message message : result)
         {
-            SafeHtmlBuilder sb = new SafeHtmlBuilder();
-            String readCss = ReadFlags.isRead(message) ? " isRead" : "";
+            SafeHtml messageItem = renderMessage(message);
 
-            sb.appendHtmlConstant("<div id='msg-"+message.getId()+"' class='message-content"+readCss+"' style='padding-right:50px;'>");
-            sb.appendHtmlConstant("<b style='color:#808080;'>"+message.getFrom()+"</b><br/>");
-            sb.appendEscaped(message.getMessage().replaceAll("\n", ""));
-            sb.appendHtmlConstant("</div>");
-
-            if(message.getNumReplies()>0)
-                sb.appendHtmlConstant("<small class='counter'>"+message.getNumReplies()+"</small>");
-
-            addContent(sb.toSafeHtml(), new ClickHandler()
+            addContent(messageItem, new ClickHandler()
             {
                 @Override
                 public void onClick(ClickEvent clickEvent) {
@@ -118,5 +116,20 @@ public class MessageListView extends ScrollContentListView {
             });
 
         }
+    }
+
+    private SafeHtml renderMessage(Message message) {
+        SafeHtmlBuilder sb = new SafeHtmlBuilder();
+        String readCss = ReadFlags.isRead(message) ? " isRead" : "";
+
+        sb.appendHtmlConstant("<div id='msg-"+message.getId()+"' class='message-content"+readCss+"' style='padding-right:50px;'>");
+        sb.appendHtmlConstant("<b style='color:#808080;'>"+message.getFrom()+"</b><br/>");
+        sb.appendEscaped(message.getMessage().replaceAll("\n", ""));
+        sb.appendHtmlConstant("</div>");
+
+        if(message.getNumReplies()>0)
+            sb.appendHtmlConstant("<small class='counter'>"+message.getNumReplies()+"</small>");
+
+        return sb.toSafeHtml();
     }
 }

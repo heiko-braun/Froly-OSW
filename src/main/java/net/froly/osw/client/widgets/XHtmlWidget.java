@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
+import com.lombardi.mobilesafari.event.*;
 
 /**
  * A custom XHTML widget that supports {@link com.google.gwt.event.dom.client.ClickHandler}'s
@@ -34,6 +35,7 @@ public class XHtmlWidget extends Widget implements HasClickHandlers {
 
         sinkEvents(Event.ONMOUSEDOWN);
         sinkEvents(Event.ONMOUSEUP);
+
     }
 
     public XHtmlWidget(Element x){
@@ -55,6 +57,22 @@ public class XHtmlWidget extends Widget implements HasClickHandlers {
 
     public HandlerRegistration addClickHandler(ClickHandler handler) {
         return addDomHandler(handler, ClickEvent.getType());
+    }
+
+    public HandlerRegistration addTouchStartHandler(TouchStartHandler handler) {
+        return addDomHandler(handler, TouchStartEvent.getType());
+    }
+
+    public HandlerRegistration addTouchMoveHandler(TouchMoveHandler handler) {
+        return addDomHandler(handler, TouchMoveEvent.getType());
+    }
+
+    public HandlerRegistration addTouchEndHandler(TouchEndHandler handler) {
+        return addDomHandler(handler, TouchEndEvent.getType());
+    }
+
+    public HandlerRegistration addTouchCancelHandler(TouchCancelHandler handler) {
+        return addDomHandler(handler, TouchCancelEvent.getType());
     }
 
     @Override

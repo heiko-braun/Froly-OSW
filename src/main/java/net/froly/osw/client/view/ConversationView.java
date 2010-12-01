@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -30,7 +31,12 @@ public class ConversationView extends ScrollContentListView {
                     public void onMessageRead(MessageReadEvent event)
                     {
                         Message updated = event.getMessage();
-                        html.getElementById("msg-"+updated.getId()).addClassName("isRead");
+
+                        Element item = html.getElementById("cnv-" + updated.getId());
+                        if(item!=null)
+                        {                            
+                            item.addClassName("isRead");
+                        }
                     }
                 }
         );
@@ -126,7 +132,7 @@ public class ConversationView extends ScrollContentListView {
 
         String readCss = ReadFlags.isRead(message) ? " isRead" : "";
 
-        sb.appendHtmlConstant("<div id='msg-"+message.getId()+"' class='message-content"+readCss+"' style='padding-right:50px;'>");
+        sb.appendHtmlConstant("<div id='cnv-"+message.getId()+"' class='message-content"+readCss+"' style='padding-right:50px;'>");
         sb.appendHtmlConstant("<b style='color:#808080;'>"+message.getFrom()+"</b><br/>");
         sb.appendEscaped(message.getMessage().replaceAll("\n", ""));
         sb.appendHtmlConstant("</div>");

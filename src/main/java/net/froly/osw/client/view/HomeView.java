@@ -1,11 +1,8 @@
 package net.froly.osw.client.view;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
 import net.froly.osw.client.widgets.ListView;
 import net.froly.osw.client.widgets.XHtmlWidget;
@@ -33,13 +30,7 @@ public class HomeView extends ListView {
 
         addPre(welcome);
 
-        addItem("Messages", new ClickHandler()
-        {
-            public void onClick(ClickEvent event) {
-                OswClient.getViewManagement().showView(Tokens.MESSSAGES);
-            }
-        });
-
+        addItem("Messages", new RevealHandler(Tokens.MESSSAGES));
         addItem("Contacts", new RevealHandler(Tokens.CONTACTS));
         addItem("Settings", new RevealHandler(Tokens.SETTINGS));
 

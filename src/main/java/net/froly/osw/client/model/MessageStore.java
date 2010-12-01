@@ -63,6 +63,7 @@ public class MessageStore implements HasHandlers {
     }
 
     public void markRead(Message message) {
+        ReadFlags.markRead(message);
         fireEvent(new MessageReadEvent(message, inbox));
     }
 }

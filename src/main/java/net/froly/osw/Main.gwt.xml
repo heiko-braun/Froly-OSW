@@ -3,13 +3,15 @@
     <!-- Inherit the core Web Toolkit stuff.                  -->
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.google.code.gwt.storage.Html5Storage"/>
+    <inherits name="com.google.gwt.user.MobileSafari"/>
+    <inherits name="com.lombardi.mobilesafari.MobileSafariEvents"/>
 
     <set-property name="user.agent" value="safari"/>
-    
+
     <stylesheet src="jqtouch/jqtouch.css" />
     <stylesheet src="themes/jqt/theme.css?v=2"/>
     <stylesheet src="jqtext/scrolling.css"/>
-    <stylesheet src="osw.css?v=26"/>
+    <stylesheet src="osw.css?v=31"/>
 
     <script src="jqtouch/jquery-1.4.2.min.js"/>
     <script src="jqtouch/jqtouch.js"/>

@@ -110,6 +110,12 @@
             <version>${gwt.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.lombardi</groupId>
+            <artifactId>mobile</artifactId>
+            <version>0.2</version>
+        </dependency>
         
         <dependency>
             <groupId>org.onesocialweb</groupId>
