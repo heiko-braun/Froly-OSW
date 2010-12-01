@@ -53,12 +53,6 @@ public class SettingsView extends AbstractView {
         sb.appendHtmlConstant("</form>");
         sb.appendHtmlConstant("<div style='padding:10px' id='submit-"+viewId+"'/>");
 
-        // debug settings
-        sb.appendHtmlConstant("<div>");
-        sb.appendHtmlConstant("<h2>Debug</h2>");
-        sb.appendHtmlConstant("<ul class='edit rounded' id='debug-"+viewId+"'/>");
-        sb.appendHtmlConstant("</div>");
-        
     }
 
     private String getValue(String item) {
@@ -70,7 +64,22 @@ public class SettingsView extends AbstractView {
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
+
+        // cancel
         addCancelButton("Cancel", OswClient.NOOP_HANDLER);
+
+        addButton("Reset", new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                if(Window.confirm("Reset client?"))
+                {
+                    Storage storage = OswClient.getStorage();
+                    storage.clear();
+                    reload();
+                }
+            }
+        });
 
         XHtmlWidget button = new XHtmlWidget("<a href='#' class='whitebutton' style='color:black'>Save</a>");
         button.addClickHandler(new ClickHandler()
@@ -96,21 +105,7 @@ public class SettingsView extends AbstractView {
         }
         );
 
-        html.add(button, "submit-"+viewId);
-
-
-        // debug
-        XHtmlWidget clearStorage = new XHtmlWidget("<li><a href='#'>Reset</a></li>");
-        clearStorage.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent clickEvent) {
-                Storage storage = OswClient.getStorage();
-                storage.clear();
-                reload();
-            }
-        });
-        html.add(clearStorage, "debug-"+viewId);
+        html.add(button, "submit-"+viewId);        
     }
 
     public static native String getUName(String viewId) /*-{
