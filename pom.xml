@@ -91,9 +91,32 @@
                         <goals>
                             <goal>run</goal>
                         </goals>
+                    </execution>                   
+                    <execution>
+                        <id>generate-version-class</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <!-- bump number first-->
+                                <buildnumber/>
+                                
+                                <ant antfile="scripts/antrun-version.xml" inheritAll="false" inheritRefs="false">
+                                    <property file="build.number"/>
+                                    <property name="version" value="${project.version}"/>
+                                    <property name="build.user" value="${user.name}"/>
+                                    <property name="src.dir" value="${project.build.directory}/generated-sources" />
+                                </ant>
+                            </tasks>
+                            <sourceRoot>
+                                ${project.build.directory}/generated-sources
+                            </sourceRoot>
+                        </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>            
         </plugins>
     </build>
 

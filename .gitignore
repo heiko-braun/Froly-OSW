@@ -3,5 +3,6 @@ out
 target
 .DS_Store
 .idea
+build.number
 
 
