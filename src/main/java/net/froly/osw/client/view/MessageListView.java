@@ -21,7 +21,7 @@ public class MessageListView extends ScrollContentListView {
     public MessageListView() {
         super("Messages");
 
-        MessageStore messageModel = OswClient.getMessageModel();
+        MessageStore messageModel = OswClient.getMessageStore();
 
         messageModel.addMessageReadHandler(
                 new MessageReadEventHandler()
@@ -59,7 +59,7 @@ public class MessageListView extends ScrollContentListView {
 
                 clearContent();
 
-                OswClient.getMessageModel().refresh();
+                OswClient.getMessageStore().refresh();
             }
         });
 
@@ -108,15 +108,12 @@ public class MessageListView extends ScrollContentListView {
                     }
                     else
                     {
-                        // has replies, threaded conversation view
-                        ConversationView conversation = (ConversationView)
-                                viewManagement.getView(Tokens.MESSAGE_CONVERSATION);
 
                         // reveal it
                         viewManagement.showView(Tokens.MESSAGE_CONVERSATION);
 
                         // show message
-                        conversation.display(message);
+                        OswClient.getConversationStore().loadConversation(message);
                     }
 
                 }

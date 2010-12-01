@@ -9,7 +9,6 @@ import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
 import net.froly.osw.client.ViewManagement;
 import net.froly.osw.client.model.Message;
-import net.froly.osw.client.model.MessageReadEvent;
 import net.froly.osw.client.model.ReadFlags;
 import net.froly.osw.client.widgets.ScrollContentListView;
 
@@ -31,7 +30,7 @@ public class MessageDetailView extends ScrollContentListView {
             @Override
             public void onClick(ClickEvent clickEvent) {
 
-                OswClient.getMessageModel().markRead(getMessage());
+                OswClient.getMessageStore().markRead(getMessage());
                 
                 // clear state
                 setParent(null);

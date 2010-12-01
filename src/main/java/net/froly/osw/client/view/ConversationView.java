@@ -23,7 +23,7 @@ public class ConversationView extends ScrollContentListView {
     public ConversationView() {
         super("Conversation");
 
-        OswClient.getMessageModel().addMessageReadHandler(
+        OswClient.getMessageStore().addMessageReadHandler(
                 new MessageReadEventHandler()
                 {
                     @Override
@@ -33,6 +33,20 @@ public class ConversationView extends ScrollContentListView {
                         {
                             render(getParent(), getReplies());
                         }                        
+                    }
+                }
+        );
+
+        OswClient.getConversationStore().addConversationUpdatedHandler(
+                new ConversationUpdatedHandler()
+                {
+                    @Override
+                    public void onConversationUpdated(ConversationUpdatedEvent event)
+                    {
+                        parent = event.getParent();
+                        replies = event.getReplies();
+
+                        render(getParent(), getReplies());
                     }
                 }
         );
@@ -47,7 +61,15 @@ public class ConversationView extends ScrollContentListView {
 
         super.widgetCallback(widget);
 
-        addBackButton("Messages", OswClient.NOOP_HANDLER);
+        addBackButton("Messages", new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                clearContent();
+                parent = null;
+                replies = null;
+            }
+        });
 
         // bottom toolbar
         super.addBottom("Reply", new ClickHandler()
