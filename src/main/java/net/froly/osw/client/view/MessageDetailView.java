@@ -31,9 +31,7 @@ public class MessageDetailView extends ScrollContentListView {
             @Override
             public void onClick(ClickEvent clickEvent) {
 
-                OswClient.getMessageModel().fireEvent(
-                        new MessageReadEvent(getMessage())
-                );
+                OswClient.getMessageModel().markRead(getMessage());
                 
                 // clear state
                 setParent(null);

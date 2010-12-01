@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import net.froly.osw.client.bundle.Resources;
 import net.froly.osw.client.model.ContactService;
 import net.froly.osw.client.model.ContactServiceAsync;
-import net.froly.osw.client.model.MessageModel;
+import net.froly.osw.client.model.MessageStore;
 import net.froly.osw.client.view.*;
 import net.froly.osw.client.widgets.XHtmlWidget;
 
@@ -29,7 +29,7 @@ public class OswClient implements EntryPoint {
 
     private HomeView homeView;
     
-    private static MessageModel messageModel = new MessageModel();
+    private static MessageStore messageModel = new MessageStore();
     
     public static final ClickHandler NOOP_HANDLER = new ClickHandler() {
         @Override
@@ -175,7 +175,7 @@ public class OswClient implements EntryPoint {
         }
     }
 
-    public static MessageModel getMessageModel() {
+    public static MessageStore getMessageModel() {
         return messageModel;
     }
 

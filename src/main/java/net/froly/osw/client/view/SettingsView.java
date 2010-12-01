@@ -54,8 +54,10 @@ public class SettingsView extends AbstractView {
         sb.appendHtmlConstant("<div style='padding:10px' id='submit-"+viewId+"'/>");
 
         // debug settings
+        sb.appendHtmlConstant("<div>");
         sb.appendHtmlConstant("<h2>Debug</h2>");
-        sb.appendHtmlConstant("<ul class='edit rounded' id='debug-"+viewId+"'/>");        
+        sb.appendHtmlConstant("<ul class='edit rounded' id='debug-"+viewId+"'/>");
+        sb.appendHtmlConstant("</div>");
         
     }
 

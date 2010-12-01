@@ -65,6 +65,10 @@ public class ComposeMessageView extends AbstractView {
                     @Override
                     public void onSuccess(Void aVoid) {
                         reset();
+
+                        // update
+                        OswClient.getMessageModel().refresh();
+                        
                         // navigate back                        
                         OswClient.goBack();
                     }

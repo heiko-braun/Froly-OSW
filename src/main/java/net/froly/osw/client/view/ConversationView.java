@@ -31,10 +31,8 @@ public class ConversationView extends ScrollContentListView {
                     {
                         if(getParent()!=null && getReplies()!=null)
                         {
-
                             render(getParent(), getReplies());
-                        }
-                        
+                        }                        
                     }
                 }
         );
@@ -106,13 +104,13 @@ public class ConversationView extends ScrollContentListView {
     {
         SafeHtmlBuilder sb = new SafeHtmlBuilder();
 
-        boolean isRead = ReadFlags.isRead(message);
+        boolean flagged = ReadFlags.isRead(message);
 
         sb.appendHtmlConstant("<div class='message-content' style='padding-right:50px;'>");
         sb.appendHtmlConstant("<b style='color:#808080;'>"+message.getFrom()+"</b><br/>");
-        if(isRead) sb.appendHtmlConstant("<div style='color:#808080;'>");
+        if(flagged) sb.appendHtmlConstant("<div style='color:#808080;'>");
         sb.appendEscaped(message.getMessage().replaceAll("\n", ""));
-        if(isRead) sb.appendHtmlConstant("</div>");
+        if(flagged) sb.appendHtmlConstant("</div>");
         sb.appendHtmlConstant("</div>");
 
         return sb.toSafeHtml();

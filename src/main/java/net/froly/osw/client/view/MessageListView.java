@@ -1,10 +1,8 @@
 package net.froly.osw.client.view;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import net.froly.osw.client.OswClient;
 import net.froly.osw.client.Tokens;
@@ -19,33 +17,34 @@ import java.util.List;
  * Unfolds into conversations and message detail.
  */
 public class MessageListView extends ScrollContentListView {
-
-    private ActivityServiceAsync service = ActivityService.App.getInstance();
-
-    private List<Message> messages = null;
-
+    
     public MessageListView() {
         super("Messages");
 
-        OswClient.getMessageModel().addMessageReadHandler(
+        MessageStore messageModel = OswClient.getMessageModel();
+
+        messageModel.addMessageReadHandler(
                 new MessageReadEventHandler()
                 {
                     @Override
-                    public void onMessageRead(MessageReadEvent event) {
-                        
-                        List<Message> messageList = getMessages();
-                        if(messageList !=null)
-                        {
-                            render(messageList);
-                        }
+                    public void onMessageRead(MessageReadEvent event)
+                    {
+                        render(event.getInbox());
                     }
                 }
         );
-    }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
+        messageModel.addInboxUpdatedHandler(
+                new InboxUpdatedEventHandler()
+                {
+                    @Override
+                    public void onMessagesRefresh(InboxUpdatedEvent event)
+                    {
+                        render(event.getInbox());
+                    }
+                }
+        );
+    }    
 
     @Override
     protected void widgetCallback(HTMLPanel widget) {
@@ -58,24 +57,9 @@ public class MessageListView extends ScrollContentListView {
         {
             public void onClick(ClickEvent event) {
 
-                assert service!=null : "ActivityService is null";
-
-                OswClient.loading(true);
                 clearContent();
 
-                service.getMessages(new AsyncCallback<List<Message>>()
-                {
-                    public void onFailure(Throwable e) {
-                        OswClient.loading(false);
-                        GWT.log("Failed to retrieve messages", e);
-                    }
-
-                    public void onSuccess(List<Message> result) {
-
-                        update(result);
-                    }
-
-                });
+                OswClient.getMessageModel().refresh();
             }
         });
 
@@ -83,15 +67,6 @@ public class MessageListView extends ScrollContentListView {
         // bottom toolbar
         super.addBottom("Compose", new RevealHandler(Tokens.MESSSAGE_COMPOSE, View.SLIDEUP));
 
-    }
-
-    private void update(List<Message> result) {
-
-        this.messages = result;
-        
-        OswClient.loading(false);
-
-        render(result);
     }
 
     private void render(List<Message> result) {
@@ -103,7 +78,7 @@ public class MessageListView extends ScrollContentListView {
             SafeHtmlBuilder sb = new SafeHtmlBuilder();
 
             boolean isRead = ReadFlags.isRead(message);
-
+                        
             sb.appendHtmlConstant("<div class='message-content' style='padding-right:50px;'>");
             sb.appendHtmlConstant("<b style='color:#808080;'>"+message.getFrom()+"</b><br/>");
             if(isRead) sb.appendHtmlConstant("<div style='color:#808080;'>");
