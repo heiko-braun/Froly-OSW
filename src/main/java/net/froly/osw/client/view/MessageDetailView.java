@@ -29,9 +29,7 @@ public class MessageDetailView extends ScrollContentListView {
         {
             @Override
             public void onClick(ClickEvent clickEvent) {
-
-                OswClient.getMessageStore().markRead(getMessage());
-                
+                                
                 // clear state
                 setParent(null);
                 setMessage(null);
@@ -92,7 +90,7 @@ public class MessageDetailView extends ScrollContentListView {
 
         html.add(new HTML(sb.toSafeHtml()), targetId);
 
-        ReadFlags.markRead(message);
+        OswClient.getMessageStore().markRead(message);
     }
   
     public void setParent(Message parent) {
