@@ -29,10 +29,8 @@ public class ConversationView extends ScrollContentListView {
                     @Override
                     public void onMessageRead(MessageReadEvent event)
                     {
-                        if(getParent()!=null && getReplies()!=null)
-                        {
-                            render(getParent(), getReplies());
-                        }                        
+                        Message updated = event.getMessage();
+                        html.getElementById("msg-"+updated.getId()).addClassName("isRead");
                     }
                 }
         );
@@ -126,13 +124,11 @@ public class ConversationView extends ScrollContentListView {
     {
         SafeHtmlBuilder sb = new SafeHtmlBuilder();
 
-        boolean flagged = ReadFlags.isRead(message);
+        String readCss = ReadFlags.isRead(message) ? " isRead" : "";
 
-        sb.appendHtmlConstant("<div class='message-content' style='padding-right:50px;'>");
+        sb.appendHtmlConstant("<div id='msg-"+message.getId()+"' class='message-content"+readCss+"' style='padding-right:50px;'>");
         sb.appendHtmlConstant("<b style='color:#808080;'>"+message.getFrom()+"</b><br/>");
-        if(flagged) sb.appendHtmlConstant("<div style='color:#808080;'>");
         sb.appendEscaped(message.getMessage().replaceAll("\n", ""));
-        if(flagged) sb.appendHtmlConstant("</div>");
         sb.appendHtmlConstant("</div>");
 
         return sb.toSafeHtml();

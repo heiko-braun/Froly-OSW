@@ -8,6 +8,10 @@
     color:#fff;
 }
 
+.isRead {
+    color:#808080 ! important;    
+}
+
 .message-content {
     font-size:small;
     color: #fff;

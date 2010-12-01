@@ -29,7 +29,8 @@ public class MessageListView extends ScrollContentListView {
                     @Override
                     public void onMessageRead(MessageReadEvent event)
                     {
-                        render(event.getInbox());
+                        Message updated = event.getMessage();
+                        html.getElementById("msg-"+updated.getId()).addClassName("isRead");
                     }
                 }
         );
@@ -76,14 +77,11 @@ public class MessageListView extends ScrollContentListView {
         for(final Message message : result)
         {
             SafeHtmlBuilder sb = new SafeHtmlBuilder();
+            String readCss = ReadFlags.isRead(message) ? " isRead" : "";
 
-            boolean isRead = ReadFlags.isRead(message);
-                        
-            sb.appendHtmlConstant("<div class='message-content' style='padding-right:50px;'>");
+            sb.appendHtmlConstant("<div id='msg-"+message.getId()+"' class='message-content"+readCss+"' style='padding-right:50px;'>");
             sb.appendHtmlConstant("<b style='color:#808080;'>"+message.getFrom()+"</b><br/>");
-            if(isRead) sb.appendHtmlConstant("<div style='color:#808080;'>");
             sb.appendEscaped(message.getMessage().replaceAll("\n", ""));
-            if(isRead) sb.appendHtmlConstant("</div>");
             sb.appendHtmlConstant("</div>");
 
             if(message.getNumReplies()>0)
