@@ -17,7 +17,7 @@ public class ScrollContentListView extends ContentListView {
     protected void htmlCallback(SafeHtmlBuilder sb) {
 
         sb.appendHtmlConstant("<div class='vertical-scroll use-bottom-toolbar'>"); // scroll wrapper
-        sb.appendHtmlConstant("<div id='scroll-"+viewId+"'>"); // will be scrolled
+        sb.appendHtmlConstant("<div id='scroll-"+viewId+"' style='min-height:100%'>"); // will be scrolled
         sb.appendHtmlConstant("<!-- this div is the one being scrolled -->");
 
         sb.appendHtmlConstant("<div id='listPanelPre-"+viewId+"'></div>");
