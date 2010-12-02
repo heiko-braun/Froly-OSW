@@ -138,6 +138,7 @@
             <groupId>com.lombardi</groupId>
             <artifactId>mobile</artifactId>
             <version>0.2</version>
+            <scope>provided</scope>
         </dependency>
         
         <dependency>
@@ -155,8 +156,21 @@
             <groupId>com.google.code.gwt-mobile-webkit</groupId>
             <artifactId>gwt-html5-storage</artifactId>
             <version>1.0.1</version>
+            <scope>provided</scope>
         </dependency>
-       
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.10</version>
+        </dependency>
+
+
     </dependencies>
 
     <repositories>        

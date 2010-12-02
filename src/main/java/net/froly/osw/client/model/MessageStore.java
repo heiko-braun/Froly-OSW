@@ -7,6 +7,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.List;
@@ -48,7 +49,9 @@ public class MessageStore implements HasHandlers {
                 service.getMessages(new AsyncCallback<List<Message>>()
                 {
                     public void onFailure(Throwable e) {
-                        GWT.log("Failed to retrieve messages", e);
+                        String msg = "Failed to retrieve messages";
+                        Window.alert(msg);
+                        GWT.log(msg, e);
                     }
 
                     public void onSuccess(List<Message> result) {

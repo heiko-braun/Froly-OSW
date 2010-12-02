@@ -7,6 +7,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.List;
@@ -35,7 +36,9 @@ public class ConversationStore implements HasHandlers {
                         {
                             @Override
                             public void onFailure(Throwable e) {
-                                GWT.log("Failed to load replies", e);
+                                String msg = "Failed to load replies";
+                                Window.alert(msg);
+                                GWT.log(msg, e);
                             }
 
                             @Override

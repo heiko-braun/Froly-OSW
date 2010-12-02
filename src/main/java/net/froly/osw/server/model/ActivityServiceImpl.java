@@ -9,16 +9,18 @@ import org.onesocialweb.model.activity.*;
 import org.onesocialweb.model.atom.AtomFactory;
 import org.onesocialweb.model.atom.AtomReplyTo;
 import org.onesocialweb.model.atom.DefaultAtomFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import java.text.DateFormat;
 import java.util.*;
-import java.util.logging.Logger;
+
 
 public class ActivityServiceImpl extends OswServiceServlet implements ActivityService {
 
-    private static Logger log = Logger.getLogger(ActivityServiceImpl.class.getName());
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     private ActivityFactory activityFactory = new DefaultActivityFactory();
     private AtomFactory atomFactory = new DefaultAtomFactory();
@@ -43,7 +45,7 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
     
     public List<Message> getMessages() {
 
-        final OswService osw = getOrCreateService();
+        final OswService osw = getService();
                 
         Inbox inbox = osw.getInbox();
         inbox.refresh();
@@ -107,7 +109,7 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
     @Override
     public List<Message> getReplies(String id) {
 
-        final OswService osw = getOrCreateService();
+        final OswService osw = getService();
 
         Inbox inbox = osw.getInbox();
         ActivityEntry activityEntry = inbox.getEntry(id);
@@ -119,7 +121,7 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
             for(ActivityEntry entry : entries)
                 replies.add(activityToMessage(entry));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to retrieve replies", e);
             throw new RuntimeException("Failed to fetch replies", e);
         }
 
@@ -149,7 +151,7 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
         entry.setTitle(message);
         
         try {
-            OswService osw = getOrCreateService();
+            OswService osw = getService();
             osw.postActivity(entry);
         } catch (Exception e) {
             throw new RuntimeException("Failed to send Message", e);
@@ -163,7 +165,7 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
         if(null==message)
             throw new RuntimeException("Message payload cannot be null");
         
-        final OswService osw = getOrCreateService();
+        final OswService osw = getService();
 
         Inbox inbox = osw.getInbox();
         ActivityEntry parentActivity = inbox.getEntry(parentId);
@@ -190,7 +192,7 @@ public class ActivityServiceImpl extends OswServiceServlet implements ActivitySe
 
     @Override
     public void deleteMessage(String id) {
-        OswService osw = getOrCreateService();
+        OswService osw = getService();
         try {
             osw.deleteActivity(id);
         } catch (Exception e) {

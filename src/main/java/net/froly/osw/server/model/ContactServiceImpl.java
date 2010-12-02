@@ -1,51 +1,74 @@
 package net.froly.osw.server.model;
 
 import net.froly.osw.client.model.Contact;
-import net.froly.osw.client.model.ContactService;
 import net.froly.osw.client.model.ContactProfile;
+import net.froly.osw.client.model.ContactService;
+import net.froly.osw.server.AccountInfo;
+import net.froly.osw.server.OswServiceExtension;
+import net.froly.osw.server.ServiceHolder;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.onesocialweb.client.OswService;
-import org.onesocialweb.client.exception.AuthenticationRequired;
-import org.onesocialweb.client.exception.ConnectionRequired;
-import org.onesocialweb.client.exception.RequestException;
+import org.onesocialweb.client.OswServiceFactory;
 import org.onesocialweb.model.vcard4.Profile;
+import org.onesocialweb.smack.OswServiceFactoryImp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ContactServiceImpl extends OswServiceServlet implements ContactService {
 
-    private static Logger log = Logger.getLogger(ContactServiceImpl.class.getName());
-
+    private Logger log = LoggerFactory.getLogger(getClass());
+    private final static int PORT = 5222;
+    
     @Override
-    public boolean login(String user, String password, String host) {
+    public boolean login(String user, String pass, String host) {
 
         HttpSession session = getThreadLocalRequest().getSession();
-        session.setAttribute("user", user);
-        session.setAttribute("pass", password);
-        session.setAttribute("host", host);
+        AccountInfo account = new AccountInfo(user, pass, host);
+        
+        if(null == session.getAttribute("osw"))
+        {
+            log.info("Creating OSW service ...");
+            OswServiceFactory serviceFactory = new OswServiceFactoryImp()
+            {
+                @Override
+                public OswService createService() {
+                    return new OswServiceExtension();
+                }
+            };
 
-        OswService service = null;
+            OswService service = serviceFactory.createService();
 
-        try {
-            session.removeAttribute("osw"); // clear it first
-            service = getOrCreateService();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            if(!service.isConnected()) {
+                log.info("Attempt to login: {}", account);
+
+                try {
+                    service.connect(account.getHost(), PORT, null);
+                    service.login(account.getUser(), account.getPass(), "console");
+                } catch (Exception e) {
+                    log.error("Failed to connect and login", e);
+                    return false;
+                }
+
+            }
+
+            session.setAttribute("osw", new ServiceHolder(service));
         }
 
-        return service!=null;
-    }
+
+        OswService osw = ((ServiceHolder) session.getAttribute("osw")).getService();
+        return osw!=null;
+}
 
     @Override
     public List<Contact> getSubscriptions(String jid) {
 
-        OswServiceExtension osw = (OswServiceExtension)getOrCreateService();
+        OswServiceExtension osw = (OswServiceExtension) getService();
 
         List<Contact> results = new ArrayList<Contact>();
 
@@ -82,7 +105,7 @@ public class ContactServiceImpl extends OswServiceServlet implements ContactServ
     @Override
     public ContactProfile getProfile(String jid) {
 
-        OswServiceExtension osw = (OswServiceExtension)getOrCreateService();
+        OswServiceExtension osw = (OswServiceExtension) getService();
 
         try {
             Profile profile = osw.getProfile(jid);
