@@ -46,7 +46,7 @@ public class ConversationView extends ScrollContentListView {
                 {
                     @Override
                     public void onConversationUpdated(ConversationUpdatedEvent event)
-                    {
+                    {                        
                         parent = event.getParent();
                         replies = event.getReplies();
 
@@ -68,8 +68,7 @@ public class ConversationView extends ScrollContentListView {
         addBackButton("Messages", new ClickHandler()
         {
             @Override
-            public void onClick(ClickEvent clickEvent) {
-                clearContent();
+            public void onClick(ClickEvent clickEvent) {                
                 parent = null;
                 replies = null;
             }

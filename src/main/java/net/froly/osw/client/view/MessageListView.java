@@ -78,7 +78,7 @@ public class MessageListView extends ScrollContentListView {
     }
 
     private void render(List<Message> result) {
-        
+
         clearContent();
         
         for(final Message message : result)
